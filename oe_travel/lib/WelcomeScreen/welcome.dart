@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:oe_travel/Login-Register/login.dart';
 
 class WelComeScreen extends StatelessWidget {
   const WelComeScreen({Key? key}) : super(key: key);
@@ -11,15 +12,10 @@ class WelComeScreen extends StatelessWidget {
         primarySwatch: Colors.green,
       ),
       home: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text(
-            'OeTravel',
-          ),
-        ),
+        backgroundColor: Color.fromARGB(255, 240, 238, 238),
         body: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Lottie.network(
                 "https://assets5.lottiefiles.com/packages/lf20_dgblucv4.json",
@@ -36,7 +32,7 @@ class WelComeScreen extends StatelessWidget {
                     color: Color.fromARGB(255, 121, 119, 119)),
               ),
               const SizedBox(
-                height: 25,
+                height: 26,
               ),
               const Text(" Continue",
                   textAlign: TextAlign.center,
@@ -49,7 +45,10 @@ class WelComeScreen extends StatelessWidget {
                 height: 10,
               ),
               FloatingActionButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()));
+                },
                 child: Icon(Icons.arrow_forward),
               ),
             ],
