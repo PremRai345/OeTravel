@@ -8,33 +8,58 @@ class WelComeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primaryColor: Color.fromRGBO(0, 179, 134, 1),
       ),
       home: Scaffold(
-        backgroundColor: Color.fromARGB(255, 240, 238, 238),
+        backgroundColor: Colors.white,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Lottie.network(
-                "https://assets5.lottiefiles.com/packages/lf20_dgblucv4.json",
+              const Text("OeTravel",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      height: -0.6,
+                      fontSize: 35,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "Roboto",
+                      color: Color.fromARGB(255, 121, 119, 119))),
+              const Text(
+                "Welcome to OeTravel.Travel with us...",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontFamily: "arial",
+                  color: Color.fromARGB(255, 121, 119, 119),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Lottie.asset(
+                "assets/animation/travel.json",
                 height: 300,
                 width: double.infinity,
               ),
-              const Text(
-                "Hello Welcome to Oe Travel.Travel With Us We Provide You The Best Travel Experience. We will Become Your Travel Partner And Help You To Travel Safely.",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 21,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "Roboto",
-                    color: Color.fromARGB(255, 121, 119, 119)),
-              ),
               const SizedBox(
-                height: 26,
+                height: 15,
               ),
-              const Text(" Continue",
+              const Text(
+                  "Your travelling partner. We will help in your journey. We will help you to find the best places to visit."
+                  "Join and start your journey with us.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "Roboto",
+                      color: Color.fromARGB(255, 121, 119, 119))),
+              const SizedBox(
+                height: 45,
+              ),
+              const Text(" Let's Go",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 21,
@@ -45,6 +70,7 @@ class WelComeScreen extends StatelessWidget {
                 height: 10,
               ),
               FloatingActionButton(
+                backgroundColor: Color.fromARGB(248, 5, 190, 144),
                 onPressed: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => LoginScreen()));
