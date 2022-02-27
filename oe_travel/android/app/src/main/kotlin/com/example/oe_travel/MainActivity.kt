@@ -1,4 +1,4 @@
-package com.example.oe_travel
+package com.oe_travel
 
 import io.flutter.embedding.android.FlutterActivity
 

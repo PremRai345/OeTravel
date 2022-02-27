@@ -5,15 +5,8 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/login.jpg"),
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
     );
   }
 }
