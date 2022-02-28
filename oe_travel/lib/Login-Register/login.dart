@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:oe_travel/Login-Register/forgot_password.dart';
+import 'package:oe_travel/Login-Register/signup.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -181,14 +183,27 @@ class _LoginFormState extends State<LoginForm> {
 
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: const [
-                Text("Forgot Password?",
+              children: [
+                GestureDetector(
+                  child: const Text(
+                    "Forgot Password?",
                     style: TextStyle(
                       fontSize: 13,
                       fontFamily: "Segoe UI",
                       decoration: TextDecoration.underline,
                       color: Color.fromARGB(255, 168, 166, 166),
-                    )),
+                    ),
+                  ),
+                  //When user tap on forgot password navigate to forgot password screen
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ForgotPassword(),
+                      ),
+                    );
+                  },
+                ),
               ],
             ),
             const SizedBox(
@@ -218,7 +233,7 @@ class _LoginFormState extends State<LoginForm> {
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 30,
             ),
             const Text(
               "OR",
@@ -246,7 +261,7 @@ class _LoginFormState extends State<LoginForm> {
                     ),
                     color: const Color.fromARGB(255, 255, 255, 255),
                     border: Border.all(
-                      color: Color.fromARGB(255, 255, 255, 255),
+                      color: const Color.fromARGB(255, 255, 255, 255),
                       width: 1,
                     ),
                   ),
@@ -266,9 +281,9 @@ class _LoginFormState extends State<LoginForm> {
                     borderRadius: const BorderRadius.all(
                       Radius.circular(50),
                     ),
-                    color: Color.fromARGB(255, 255, 255, 255),
+                    color: const Color.fromARGB(255, 255, 255, 255),
                     border: Border.all(
-                      color: Color.fromARGB(255, 255, 255, 255),
+                      color: const Color.fromARGB(255, 255, 255, 255),
                       width: 1,
                     ),
                   ),
@@ -299,6 +314,46 @@ class _LoginFormState extends State<LoginForm> {
                     size: 30,
                     color: Color.fromARGB(255, 0, 179, 134),
                   ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            //Already have an account?
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Don't have an account yet?  ",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: "Segoe UI",
+                        color: Color.fromARGB(255, 168, 166, 166),
+                      ),
+                    ),
+                    GestureDetector(
+                      child: const Text(
+                        "Create New",
+                        style: TextStyle(
+                          fontFamily: "Segoe UI",
+                          fontSize: 16,
+                          color: Color.fromARGB(255, 0, 179, 134),
+                        ),
+                      ),
+
+                      //When user click on Create New It will navigate to SignUp Page
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => SignUp()),
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
