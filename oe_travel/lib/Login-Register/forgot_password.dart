@@ -183,7 +183,8 @@ class ForgotPassword extends StatelessWidget {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => SignUpForm()),
+                                            builder: (context) =>
+                                                SignUpScreen()),
                                       );
                                     },
                                   ),
