@@ -26,57 +26,59 @@ class LoginScreen extends StatelessWidget {
             },
           ),
         ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              width: double.infinity,
-              child: Stack(
-                children: [
-                  Container(
-                    padding: EdgeInsets.fromLTRB(10.0, 8.0, 0.0, 0.0),
-                    child: const Text(
-                      "Hello",
-                      style: TextStyle(
-                        fontSize: 50,
-                        fontFamily: "Roboto",
-                        color: Color.fromARGB(255, 121, 119, 119),
-                        fontWeight: FontWeight.bold,
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                width: double.infinity,
+                child: Stack(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.fromLTRB(10.0, 8.0, 0.0, 0.0),
+                      child: const Text(
+                        "Hello",
+                        style: TextStyle(
+                          fontSize: 50,
+                          fontFamily: "Roboto",
+                          color: Color.fromARGB(255, 121, 119, 119),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(36.0, 59.0, 0.0, 0.0),
-                    child: const Text(
-                      "Welcome",
-                      style: TextStyle(
-                        fontSize: 40,
-                        fontFamily: "SanFrancisco",
-                        color: Color.fromARGB(255, 118, 119, 119),
-                        fontWeight: FontWeight.w700,
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(36.0, 59.0, 0.0, 0.0),
+                      child: const Text(
+                        "Welcome",
+                        style: TextStyle(
+                          fontSize: 40,
+                          fontFamily: "SanFrancisco",
+                          color: Color.fromARGB(255, 118, 119, 119),
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(208, 33.0, 0.0, 0.0),
-                    child: const Text(
-                      ".",
-                      style: TextStyle(
-                        fontSize: 70,
-                        fontFamily: "Segoe UI",
-                        color: Color.fromRGBO(0, 179, 134, 1),
-                        fontWeight: FontWeight.w700,
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(208, 33.0, 0.0, 0.0),
+                      child: const Text(
+                        ".",
+                        style: TextStyle(
+                          fontSize: 70,
+                          fontFamily: "Segoe UI",
+                          color: Color.fromRGBO(0, 179, 134, 1),
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            LoginForm(),
-          ],
+              const SizedBox(
+                height: 40,
+              ),
+              LoginForm(),
+            ],
+          ),
         ),
       ),
     );
@@ -137,7 +139,7 @@ class _LoginFormState extends State<LoginForm> {
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 30,
             ),
             //Password
             TextFormField(
@@ -349,7 +351,8 @@ class _LoginFormState extends State<LoginForm> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => SignUp()),
+                          MaterialPageRoute(
+                              builder: (context) => SignUpScreen()),
                         );
                       },
                     ),
