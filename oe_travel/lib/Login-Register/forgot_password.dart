@@ -60,7 +60,7 @@ class ForgotPassword extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.fromLTRB(260, 57, 0.0, 0.0),
+                      padding: const EdgeInsets.fromLTRB(260, 53, 0.0, 0.0),
                       child: const Text(
                         ".",
                         textAlign: TextAlign.center,
