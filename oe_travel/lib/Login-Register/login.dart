@@ -237,14 +237,32 @@ class _LoginFormState extends State<LoginForm> {
             const SizedBox(
               height: 30,
             ),
-            const Text(
-              "OR",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 18,
-                fontFamily: "Segoe UI",
-                color: Color.fromARGB(255, 168, 166, 166),
-              ),
+
+            //Show line in text or field  with line color. divider is used to show line.
+            Row(
+              children: const [
+                Expanded(
+                  child: Divider(
+                    indent: 15,
+                    endIndent: 12,
+                  ),
+                ),
+                Text(
+                  "OR",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontFamily: "Segoe UI",
+                    color: Color.fromARGB(255, 168, 166, 166),
+                  ),
+                ),
+                Expanded(
+                  child: Divider(
+                    indent: 12,
+                    endIndent: 15,
+                  ),
+                ),
+              ],
             ),
 
             const SizedBox(

@@ -252,14 +252,30 @@ class _SignUpFormState extends State<SignUpForm> {
             const SizedBox(
               height: 30,
             ),
-            const Text(
-              "OR",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 18,
-                fontFamily: "Segoe UI",
-                color: Color.fromARGB(255, 168, 166, 166),
-              ),
+            Row(
+              children: const [
+                Expanded(
+                  child: Divider(
+                    indent: 15,
+                    endIndent: 12,
+                  ),
+                ),
+                Text(
+                  "OR",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontFamily: "Segoe UI",
+                    color: Color.fromARGB(255, 168, 166, 166),
+                  ),
+                ),
+                Expanded(
+                  child: Divider(
+                    indent: 12,
+                    endIndent: 15,
+                  ),
+                ),
+              ],
             ),
 
             const SizedBox(
