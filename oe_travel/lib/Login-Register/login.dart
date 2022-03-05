@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:oe_travel/Login-Register/forgot_password.dart';
 import 'package:oe_travel/Login-Register/signup.dart';
+import 'package:oe_travel/home/home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -270,7 +273,7 @@ class _LoginFormState extends State<LoginForm> {
             ),
             //Add Social media Icons
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
                   width: 50,
@@ -285,18 +288,16 @@ class _LoginFormState extends State<LoginForm> {
                       width: 1,
                     ),
                   ),
-                  child: const Icon(
-                    Icons.facebook,
-                    size: 30,
-                    color: Colors.blue,
+                  child: const Image(
+                    image: AssetImage("assets/images/facebook.png"),
                   ),
                 ),
                 const SizedBox(
                   width: 20,
                 ),
                 Container(
-                  width: 60,
-                  height: 60,
+                  width: 40,
+                  height: 40,
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(
                       Radius.circular(50),
@@ -307,10 +308,36 @@ class _LoginFormState extends State<LoginForm> {
                       width: 1,
                     ),
                   ),
-                  child: const Icon(
-                    Icons.man_outlined,
-                    size: 30,
-                    color: Color.fromARGB(255, 0, 179, 134),
+                  child: GestureDetector(
+                    onTap: () async {
+                      //call signin method of google sign in
+                      final googleSignIn = GoogleSignIn();
+                      final user = await googleSignIn.signIn();
+
+                      //To check if user select google aacount or not
+                      if (user != null) {
+                        print(user.photoUrl);
+                        // to save user on authentication
+                        final authenticatedUser = await user.authentication;
+
+                        // //Add GoogleAuthPrvoder to firebase
+                        final authProvider = GoogleAuthProvider.credential(
+                          idToken: authenticatedUser.idToken,
+                          accessToken: authenticatedUser.accessToken,
+                        );
+
+                        await FirebaseAuth.instance
+                            .signInWithCredential(authProvider);
+                        //Add to firebase and redirect to home screen
+                        Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (_) => HomeScreen()));
+                      }
+                    },
+                    child: const Image(
+                      image: AssetImage(
+                        "assets/images/google.png",
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -318,7 +345,7 @@ class _LoginFormState extends State<LoginForm> {
                 ),
                 Container(
                   width: 50,
-                  height: 50,
+                  height: 45,
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(
                       Radius.circular(50),
@@ -329,10 +356,8 @@ class _LoginFormState extends State<LoginForm> {
                       width: 1,
                     ),
                   ),
-                  child: const Icon(
-                    Icons.facebook,
-                    size: 30,
-                    color: Color.fromARGB(255, 0, 179, 134),
+                  child: const Image(
+                    image: AssetImage("assets/images/twitter.png"),
                   ),
                 ),
               ],

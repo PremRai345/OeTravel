@@ -279,11 +279,11 @@ class _SignUpFormState extends State<SignUpForm> {
             ),
 
             const SizedBox(
-              height: 20,
+              height: 30,
             ),
             //Add Social media Icons
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
                   width: 50,
@@ -298,18 +298,18 @@ class _SignUpFormState extends State<SignUpForm> {
                       width: 1,
                     ),
                   ),
-                  child: const Icon(
-                    Icons.facebook,
-                    size: 30,
-                    color: Colors.blue,
+                  child: const Image(
+                    image: AssetImage(
+                      "assets/images/facebook.png",
+                    ),
                   ),
                 ),
                 const SizedBox(
                   width: 20,
                 ),
                 Container(
-                  width: 60,
-                  height: 60,
+                  width: 40,
+                  height: 40,
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(
                       Radius.circular(50),
@@ -320,34 +320,33 @@ class _SignUpFormState extends State<SignUpForm> {
                       width: 1,
                     ),
                   ),
-                  child: const Icon(
-                    Icons.man_outlined,
-                    size: 30,
-                    color: Color.fromARGB(255, 0, 179, 134),
+                  child: const Image(
+                    image: AssetImage(
+                      "assets/images/google.png",
+                    ),
                   ),
                 ),
                 const SizedBox(
                   width: 20,
                 ),
                 Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(50),
-                    ),
-                    color: const Color.fromARGB(255, 255, 255, 255),
-                    border: Border.all(
+                    width: 50,
+                    height: 45,
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(50),
+                      ),
                       color: const Color.fromARGB(255, 255, 255, 255),
-                      width: 1,
+                      border: Border.all(
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        width: 1,
+                      ),
                     ),
-                  ),
-                  child: const Icon(
-                    Icons.facebook,
-                    size: 30,
-                    color: Color.fromARGB(255, 0, 179, 134),
-                  ),
-                ),
+                    child: const Image(
+                      image: AssetImage(
+                        "assets/images/twitter.png",
+                      ),
+                    )),
               ],
             ),
             const SizedBox(
