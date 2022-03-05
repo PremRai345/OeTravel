@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:oe_travel/home/home_screen.dart';
 
 class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+  SignUpScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -91,9 +93,13 @@ class SignUpForm extends StatefulWidget {
 }
 
 class _SignUpFormState extends State<SignUpForm> {
+  final formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: formKey,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
         child: Column(
@@ -101,6 +107,13 @@ class _SignUpFormState extends State<SignUpForm> {
             //Login Email
             TextFormField(
               keyboardType: TextInputType.emailAddress,
+              textInputAction: TextInputAction.done,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter your email';
+                }
+                return null;
+              },
               decoration: const InputDecoration(
                 labelText: "Email",
                 hintText: "Enter your email",
@@ -142,6 +155,13 @@ class _SignUpFormState extends State<SignUpForm> {
             //Password
             TextFormField(
               obscureText: true,
+              textInputAction: TextInputAction.done,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter your password';
+                }
+                return null;
+              },
               decoration: const InputDecoration(
                 labelText: "Password",
                 hintText: "Enter your Password",
@@ -184,6 +204,13 @@ class _SignUpFormState extends State<SignUpForm> {
             //Password
             TextFormField(
               obscureText: true,
+              textInputAction: TextInputAction.done,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter your Confirm Password';
+                }
+                return null;
+              },
               decoration: const InputDecoration(
                 labelText: " Confirm Password",
                 hintText: "Re-enter your Password",
@@ -237,7 +264,21 @@ class _SignUpFormState extends State<SignUpForm> {
                     Radius.circular(28),
                   ),
                 ),
-                onPressed: () {},
+                //Sign Up wit email and password
+
+                onPressed: () async {
+                  if (formKey.currentState!.validate()) {
+                    final emailAddress = emailController.text;
+                    final passwordUser = passwordController.text;
+
+                    final user = await FirebaseAuth.instance
+                        .createUserWithEmailAndPassword(
+                      email: emailAddress,
+                      password: passwordUser,
+                    );
+                    print(user.user!.email);
+                  }
+                },
                 child: const Text(
                   "Sign Up",
                   style: TextStyle(

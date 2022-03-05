@@ -6,7 +6,10 @@ import 'package:oe_travel/Login-Register/signup.dart';
 import 'package:oe_travel/home/home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  LoginScreen({Key? key}) : super(key: key);
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -29,58 +32,61 @@ class LoginScreen extends StatelessWidget {
             },
           ),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                width: double.infinity,
-                child: Stack(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.fromLTRB(10.0, 8.0, 0.0, 0.0),
-                      child: const Text(
-                        "Hello",
-                        style: TextStyle(
-                          fontSize: 50,
-                          fontFamily: "Roboto",
-                          color: Color.fromARGB(255, 121, 119, 119),
-                          fontWeight: FontWeight.bold,
+        body: Form(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  width: double.infinity,
+                  child: Stack(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.fromLTRB(10.0, 8.0, 0.0, 0.0),
+                        child: const Text(
+                          "Hello",
+                          style: TextStyle(
+                            fontSize: 50,
+                            fontFamily: "Roboto",
+                            color: Color.fromARGB(255, 121, 119, 119),
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(36.0, 59.0, 0.0, 0.0),
-                      child: const Text(
-                        "Welcome",
-                        style: TextStyle(
-                          fontSize: 40,
-                          fontFamily: "SanFrancisco",
-                          color: Color.fromARGB(255, 118, 119, 119),
-                          fontWeight: FontWeight.w700,
+                      Container(
+                        padding:
+                            const EdgeInsets.fromLTRB(36.0, 59.0, 0.0, 0.0),
+                        child: const Text(
+                          "Welcome",
+                          style: TextStyle(
+                            fontSize: 40,
+                            fontFamily: "SanFrancisco",
+                            color: Color.fromARGB(255, 118, 119, 119),
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(208, 33.0, 0.0, 0.0),
-                      child: const Text(
-                        ".",
-                        style: TextStyle(
-                          fontSize: 70,
-                          fontFamily: "Segoe UI",
-                          color: Color.fromRGBO(0, 179, 134, 1),
-                          fontWeight: FontWeight.w700,
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(208, 33.0, 0.0, 0.0),
+                        child: const Text(
+                          ".",
+                          style: TextStyle(
+                            fontSize: 70,
+                            fontFamily: "Segoe UI",
+                            color: Color.fromRGBO(0, 179, 134, 1),
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-              LoginForm(),
-            ],
+                const SizedBox(
+                  height: 40,
+                ),
+                LoginForm(),
+              ],
+            ),
           ),
         ),
       ),
@@ -96,9 +102,13 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: formKey,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
         child: Column(
@@ -106,6 +116,13 @@ class _LoginFormState extends State<LoginForm> {
             //Login Email
             TextFormField(
               keyboardType: TextInputType.emailAddress,
+              textInputAction: TextInputAction.done,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter your email';
+                }
+                return null;
+              },
               decoration: const InputDecoration(
                 labelText: "Email",
                 hintText: "Enter your email",
@@ -147,6 +164,13 @@ class _LoginFormState extends State<LoginForm> {
             //Password
             TextFormField(
               obscureText: true,
+              textInputAction: TextInputAction.done,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter your password';
+                }
+                return null;
+              },
               decoration: const InputDecoration(
                 labelText: "Password",
                 hintText: "Enter your Password",
@@ -225,7 +249,23 @@ class _LoginFormState extends State<LoginForm> {
                     Radius.circular(28),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () async {
+                  if (formKey.currentState!.validate()) {
+                    final email = emailController.text;
+                    final password = passwordController.text;
+
+                    final user =
+                        await FirebaseAuth.instance.signInWithEmailAndPassword(
+                      email: email,
+                      password: password,
+                    );
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (_) => const HomeScreen(),
+                      ),
+                    );
+                  }
+                },
                 child: const Text(
                   "Login",
                   style: TextStyle(
