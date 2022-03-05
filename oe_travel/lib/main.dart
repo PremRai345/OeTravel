@@ -1,7 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:oe_travel/WelcomeScreen/welcome.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); //Connecting to firebase
+  await Firebase.initializeApp();
   runApp(const OeTravel());
 }
 
