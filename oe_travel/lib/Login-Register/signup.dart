@@ -1,21 +1,29 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:oe_travel/home/home_screen.dart';
+import 'package:oe_travel/widgets/general_text_field.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({Key? key}) : super(key: key);
 
+  FirebaseAuth auth = FirebaseAuth.instance;
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Login',
+      key: formKey,
+      title: 'Sign  Up',
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
-          brightness: Brightness.light,
           leading: IconButton(
             icon: const Icon(
               Icons.arrow_back_ios,
@@ -76,301 +84,194 @@ class SignUpScreen extends StatelessWidget {
               const SizedBox(
                 height: 25,
               ),
-              SignUpForm(),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class SignUpForm extends StatefulWidget {
-  SignUpForm({Key? key}) : super(key: key);
-
-  @override
-  State<SignUpForm> createState() => _SignUpFormState();
-}
-
-class _SignUpFormState extends State<SignUpForm> {
-  final formKey = GlobalKey<FormState>();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: formKey,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-        child: Column(
-          children: [
-            //Login Email
-            TextFormField(
-              keyboardType: TextInputType.emailAddress,
-              textInputAction: TextInputAction.done,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter your email';
-                }
-                return null;
-              },
-              decoration: const InputDecoration(
-                labelText: "Email",
-                hintText: "Enter your email",
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-                suffixIcon: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.email_outlined,
-                    color: Color.fromARGB(255, 196, 191, 191),
-                  ),
-                ),
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 41, vertical: 20),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(28),
-                  ),
-                  borderSide: BorderSide(
-                    color: Color.fromARGB(255, 196, 191, 191),
-                    width: 1,
-                  ),
-                  gapPadding: 10,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(28),
-                  ),
-                  borderSide: BorderSide(
-                    color: Color.fromARGB(255, 196, 191, 191),
-                    width: 1,
-                  ),
-                  gapPadding: 10,
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            //Password
-            TextFormField(
-              obscureText: true,
-              textInputAction: TextInputAction.done,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter your password';
-                }
-                return null;
-              },
-              decoration: const InputDecoration(
-                labelText: "Password",
-                hintText: "Enter your Password",
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-                suffixIcon: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.lock_outline,
-                    color: Color.fromARGB(255, 196, 191, 191),
-                  ),
-                ),
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 41, vertical: 20),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(28),
-                  ),
-                  borderSide: BorderSide(
-                    color: Color.fromARGB(255, 196, 191, 191),
-                    width: 1,
-                  ),
-                  gapPadding: 10,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(28),
-                  ),
-                  borderSide: BorderSide(
-                    color: Color.fromARGB(255, 196, 191, 191),
-                    width: 1,
-                  ),
-                  gapPadding: 10,
-                ),
-              ),
-            ),
-
-            const SizedBox(
-              height: 30,
-            ),
-            //Password
-            TextFormField(
-              obscureText: true,
-              textInputAction: TextInputAction.done,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter your Confirm Password';
-                }
-                return null;
-              },
-              decoration: const InputDecoration(
-                labelText: " Confirm Password",
-                hintText: "Re-enter your Password",
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-                suffixIcon: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.lock_outline,
-                    color: Color.fromARGB(255, 196, 191, 191),
-                  ),
-                ),
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 41, vertical: 20),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(28),
-                  ),
-                  borderSide: BorderSide(
-                    color: Color.fromARGB(255, 196, 191, 191),
-                    width: 1,
-                  ),
-                  gapPadding: 10,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(28),
-                  ),
-                  borderSide: BorderSide(
-                    color: Color.fromARGB(255, 196, 191, 191),
-                    width: 1,
-                  ),
-                  gapPadding: 10,
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-
-            const SizedBox(
-              height: 28,
-            ),
-            //Login Button
-            Container(
-              width: double.infinity,
-              child: RaisedButton(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                color: const Color.fromARGB(255, 0, 179, 134),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(28),
-                  ),
-                ),
-                //Sign Up wit email and password
-
-                onPressed: () async {
-                  if (formKey.currentState!.validate()) {
-                    final emailAddress = emailController.text;
-                    final passwordUser = passwordController.text;
-
-                    final user = await FirebaseAuth.instance
-                        .createUserWithEmailAndPassword(
-                      email: emailAddress,
-                      password: passwordUser,
-                    );
-                    print(user.user!.email);
+              GeneralTextField(
+                title: "Email",
+                textInputType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.next,
+                validate: (value) {
+                  if (value!.trim().isEmpty) {
+                    return "Please enter your email";
                   }
+                  return null;
                 },
-                child: const Text(
-                  "Sign Up",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: "Roboto",
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontWeight: FontWeight.w700,
+                controller: emailController,
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              GeneralTextField(
+                title: "Password",
+                textInputType: TextInputType.text,
+                textInputAction: TextInputAction.done,
+                validate: (value) {
+                  if (value!.isEmpty) {
+                    return "Please enter your Password";
+                  }
+                  return null;
+                },
+                controller: passwordController,
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              GeneralTextField(
+                title: "Confirm Password",
+                textInputType: TextInputType.text,
+                textInputAction: TextInputAction.done,
+                validate: (value) {
+                  if (value!.isEmpty) {
+                    return "Re-enter your Password";
+                  }
+                  return null;
+                },
+                controller: confirmPasswordController,
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Container(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: const Color.fromARGB(255, 0, 179, 134),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(28),
+                      ),
+                    ),
+                    padding: const EdgeInsets.all(15),
                   ),
+                  child: const Text(
+                    "Sign Up",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: "Roboto",
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+
+                  //OnPressed sign up to firebase
+
+                  onPressed: () async {
+                    if (formKey.currentState!.validate()) {
+                      final emailAddress = emailController.text;
+                      final passwordForUser = passwordController.text;
+
+                      final user = await FirebaseAuth.instance
+                          .createUserWithEmailAndPassword(
+                        email: emailAddress,
+                        password: passwordForUser,
+                      );
+                    }
+                  },
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Row(
-              children: const [
-                Expanded(
-                  child: Divider(
-                    indent: 15,
-                    endIndent: 12,
+              const SizedBox(
+                height: 40,
+              ),
+              Row(
+                children: const [
+                  Expanded(
+                    child: Divider(
+                      indent: 15,
+                      endIndent: 12,
+                    ),
                   ),
-                ),
-                Text(
-                  "OR",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: "Segoe UI",
-                    color: Color.fromARGB(255, 168, 166, 166),
+                  Text(
+                    "OR",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: "Segoe UI",
+                      color: Color.fromARGB(255, 168, 166, 166),
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: Divider(
-                    indent: 12,
-                    endIndent: 15,
+                  Expanded(
+                    child: Divider(
+                      indent: 12,
+                      endIndent: 15,
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
 
-            const SizedBox(
-              height: 30,
-            ),
-            //Add Social media Icons
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(50),
-                    ),
-                    color: const Color.fromARGB(255, 255, 255, 255),
-                    border: Border.all(
+              const SizedBox(
+                height: 20,
+              ),
+              //Add Social media Icons
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(50),
+                      ),
                       color: const Color.fromARGB(255, 255, 255, 255),
-                      width: 1,
+                      border: Border.all(
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        width: 1,
+                      ),
+                    ),
+                    child: const Image(
+                      image: AssetImage("assets/images/facebook.png"),
                     ),
                   ),
-                  child: const Image(
-                    image: AssetImage(
-                      "assets/images/facebook.png",
-                    ),
+                  const SizedBox(
+                    width: 20,
                   ),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(50),
-                    ),
-                    color: const Color.fromARGB(255, 255, 255, 255),
-                    border: Border.all(
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(50),
+                      ),
                       color: const Color.fromARGB(255, 255, 255, 255),
-                      width: 1,
+                      border: Border.all(
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        width: 1,
+                      ),
+                    ),
+                    child: GestureDetector(
+                      onTap: () async {
+                        //call signin method of google sign in
+                        final googleSignIn = GoogleSignIn();
+                        final user = await googleSignIn.signIn();
+
+                        //To check if user select google aacount or not
+                        if (user != null) {
+                          print(user.photoUrl);
+                          // to save user on authentication
+                          final authenticatedUser = await user.authentication;
+
+                          // //Add GoogleAuthPrvoder to firebase
+                          final authProvider = GoogleAuthProvider.credential(
+                            idToken: authenticatedUser.idToken,
+                            accessToken: authenticatedUser.accessToken,
+                          );
+
+                          await FirebaseAuth.instance
+                              .signInWithCredential(authProvider);
+                          //Add to firebase and redirect to home screen
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(builder: (_) => HomeScreen()));
+                        }
+                      },
+                      child: const Image(
+                        image: AssetImage(
+                          "assets/images/google.png",
+                        ),
+                      ),
                     ),
                   ),
-                  child: const Image(
-                    image: AssetImage(
-                      "assets/images/google.png",
-                    ),
+                  const SizedBox(
+                    width: 20,
                   ),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Container(
+                  Container(
                     width: 50,
                     height: 45,
                     decoration: BoxDecoration(
@@ -384,17 +285,13 @@ class _SignUpFormState extends State<SignUpForm> {
                       ),
                     ),
                     child: const Image(
-                      image: AssetImage(
-                        "assets/images/twitter.png",
-                      ),
-                    )),
-              ],
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            //Already have an account?
-          ],
+                      image: AssetImage("assets/images/twitter.png"),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

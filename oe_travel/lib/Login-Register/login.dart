@@ -4,9 +4,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:oe_travel/Login-Register/forgot_password.dart';
 import 'package:oe_travel/Login-Register/signup.dart';
 import 'package:oe_travel/home/home_screen.dart';
+import 'package:oe_travel/widgets/general_text_field.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
+  FirebaseAuth auth = FirebaseAuth.instance;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
@@ -21,7 +23,6 @@ class LoginScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
-          brightness: Brightness.light,
           leading: IconButton(
             icon: const Icon(
               Icons.arrow_back_ios,
@@ -33,20 +34,20 @@ class LoginScreen extends StatelessWidget {
           ),
         ),
         body: Form(
+          key: formKey,
           child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  width: double.infinity,
+                  width: MediaQuery.of(context).size.width,
                   child: Stack(
                     children: [
                       Container(
-                        padding: EdgeInsets.fromLTRB(10.0, 8.0, 0.0, 0.0),
+                        padding: EdgeInsets.fromLTRB(19.0, 15.0, 0.0, 0.0),
                         child: const Text(
                           "Hello",
                           style: TextStyle(
-                            fontSize: 50,
+                            fontSize: 55,
                             fontFamily: "Roboto",
                             color: Color.fromARGB(255, 121, 119, 119),
                             fontWeight: FontWeight.bold,
@@ -55,11 +56,11 @@ class LoginScreen extends StatelessWidget {
                       ),
                       Container(
                         padding:
-                            const EdgeInsets.fromLTRB(36.0, 59.0, 0.0, 0.0),
+                            const EdgeInsets.fromLTRB(36.0, 70.0, 0.0, 0.0),
                         child: const Text(
                           "Welcome",
                           style: TextStyle(
-                            fontSize: 40,
+                            fontSize: 45,
                             fontFamily: "SanFrancisco",
                             color: Color.fromARGB(255, 118, 119, 119),
                             fontWeight: FontWeight.w700,
@@ -67,7 +68,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.fromLTRB(208, 33.0, 0.0, 0.0),
+                        padding: const EdgeInsets.fromLTRB(225, 48.0, 0.0, 0.0),
                         child: const Text(
                           ".",
                           style: TextStyle(
@@ -82,368 +83,273 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 40,
+                  height: 30,
                 ),
-                LoginForm(),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class LoginForm extends StatefulWidget {
-  LoginForm({Key? key}) : super(key: key);
-
-  @override
-  State<LoginForm> createState() => _LoginFormState();
-}
-
-class _LoginFormState extends State<LoginForm> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final formKey = GlobalKey<FormState>();
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: formKey,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-        child: Column(
-          children: [
-            //Login Email
-            TextFormField(
-              keyboardType: TextInputType.emailAddress,
-              textInputAction: TextInputAction.done,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter your email';
-                }
-                return null;
-              },
-              decoration: const InputDecoration(
-                labelText: "Email",
-                hintText: "Enter your email",
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-                suffixIcon: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.email_outlined,
-                    color: Color.fromARGB(255, 196, 191, 191),
-                  ),
-                ),
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 41, vertical: 20),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(28),
-                  ),
-                  borderSide: BorderSide(
-                    color: Color.fromARGB(255, 196, 191, 191),
-                    width: 1,
-                  ),
-                  gapPadding: 10,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(28),
-                  ),
-                  borderSide: BorderSide(
-                    color: Color.fromARGB(255, 196, 191, 191),
-                    width: 1,
-                  ),
-                  gapPadding: 10,
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            //Password
-            TextFormField(
-              obscureText: true,
-              textInputAction: TextInputAction.done,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter your password';
-                }
-                return null;
-              },
-              decoration: const InputDecoration(
-                labelText: "Password",
-                hintText: "Enter your Password",
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-                suffixIcon: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.lock_outline,
-                    color: Color.fromARGB(255, 196, 191, 191),
-                  ),
-                ),
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 41, vertical: 20),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(28),
-                  ),
-                  borderSide: BorderSide(
-                    color: Color.fromARGB(255, 196, 191, 191),
-                    width: 1,
-                  ),
-                  gapPadding: 10,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(28),
-                  ),
-                  borderSide: BorderSide(
-                    color: Color.fromARGB(255, 196, 191, 191),
-                    width: 1,
-                  ),
-                  gapPadding: 10,
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                GestureDetector(
-                  child: const Text(
-                    "Forgot Password?",
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontFamily: "Segoe UI",
-                      decoration: TextDecoration.underline,
-                      color: Color.fromARGB(255, 168, 166, 166),
-                    ),
-                  ),
-                  //When user tap on forgot password navigate to forgot password screen
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ForgotPassword(),
-                      ),
-                    );
+                GeneralTextField(
+                  title: "Email",
+                  textInputType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
+                  validate: (value) {
+                    if (value!.trim().isEmpty) {
+                      return "Please enter your email";
+                    }
+                    return null;
                   },
+                  controller: emailController,
                 ),
-              ],
-            ),
-            const SizedBox(
-              height: 28,
-            ),
-            //Login Button
-            Container(
-              width: double.infinity,
-              child: RaisedButton(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                color: const Color.fromARGB(255, 0, 179, 134),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(28),
-                  ),
-                ),
-                onPressed: () async {
-                  if (formKey.currentState!.validate()) {
-                    final email = emailController.text;
-                    final password = passwordController.text;
-
-                    final user =
-                        await FirebaseAuth.instance.signInWithEmailAndPassword(
-                      email: email,
-                      password: password,
-                    );
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (_) => const HomeScreen(),
-                      ),
-                    );
-                  }
-                },
-                child: const Text(
-                  "Login",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: "Roboto",
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-
-            //Show line in text or field  with line color. divider is used to show line.
-            Row(
-              children: const [
-                Expanded(
-                  child: Divider(
-                    indent: 15,
-                    endIndent: 12,
-                  ),
-                ),
-                Text(
-                  "OR",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: "Segoe UI",
-                    color: Color.fromARGB(255, 168, 166, 166),
-                  ),
-                ),
-                Expanded(
-                  child: Divider(
-                    indent: 12,
-                    endIndent: 15,
-                  ),
-                ),
-              ],
-            ),
-
-            const SizedBox(
-              height: 20,
-            ),
-            //Add Social media Icons
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(50),
-                    ),
-                    color: const Color.fromARGB(255, 255, 255, 255),
-                    border: Border.all(
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      width: 1,
-                    ),
-                  ),
-                  child: const Image(
-                    image: AssetImage("assets/images/facebook.png"),
-                  ),
+                const SizedBox(height: 20),
+                GeneralTextField(
+                  title: "Password",
+                  textInputType: TextInputType.text,
+                  textInputAction: TextInputAction.done,
+                  validate: (value) {
+                    if (value!.trim().isEmpty) {
+                      return "Please enter your password";
+                    }
+                    return null;
+                  },
+                  controller: passwordController,
                 ),
                 const SizedBox(
-                  width: 20,
+                  height: 20,
                 ),
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(50),
-                    ),
-                    color: const Color.fromARGB(255, 255, 255, 255),
-                    border: Border.all(
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      width: 1,
-                    ),
-                  ),
-                  child: GestureDetector(
-                    onTap: () async {
-                      //call signin method of google sign in
-                      final googleSignIn = GoogleSignIn();
-                      final user = await googleSignIn.signIn();
-
-                      //To check if user select google aacount or not
-                      if (user != null) {
-                        print(user.photoUrl);
-                        // to save user on authentication
-                        final authenticatedUser = await user.authentication;
-
-                        // //Add GoogleAuthPrvoder to firebase
-                        final authProvider = GoogleAuthProvider.credential(
-                          idToken: authenticatedUser.idToken,
-                          accessToken: authenticatedUser.accessToken,
-                        );
-
-                        await FirebaseAuth.instance
-                            .signInWithCredential(authProvider);
-                        //Add to firebase and redirect to home screen
-                        Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (_) => HomeScreen()));
-                      }
-                    },
-                    child: const Image(
-                      image: AssetImage(
-                        "assets/images/google.png",
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Container(
-                  width: 50,
-                  height: 45,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(50),
-                    ),
-                    color: const Color.fromARGB(255, 255, 255, 255),
-                    border: Border.all(
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      width: 1,
-                    ),
-                  ),
-                  child: const Image(
-                    image: AssetImage("assets/images/twitter.png"),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            //Already have an account?
-            Column(
-              children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    const Text(
-                      "Don't have an account yet?  ",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: "Segoe UI",
-                        color: Color.fromARGB(255, 168, 166, 166),
-                      ),
-                    ),
                     GestureDetector(
                       child: const Text(
-                        "Create New",
+                        "Forgot Password?",
                         style: TextStyle(
+                          fontSize: 13,
                           fontFamily: "Segoe UI",
-                          fontSize: 16,
-                          color: Color.fromARGB(255, 0, 179, 134),
+                          decoration: TextDecoration.underline,
+                          color: Color.fromARGB(255, 168, 166, 166),
                         ),
                       ),
-
-                      //When user click on Create New It will navigate to SignUp Page
+                      //When user tap on forgot password navigate to forgot password screen
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SignUpScreen()),
+                            builder: (context) => ForgotPassword(),
+                          ),
                         );
                       },
                     ),
                   ],
                 ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: const Color.fromARGB(255, 0, 179, 134),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(28),
+                        ),
+                      ),
+                      padding: const EdgeInsets.all(15),
+                    ),
+                    child: const Text(
+                      "Login",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: "Roboto",
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    onPressed: () async {
+                      if (formKey.currentState!.validate()) {
+                        await auth
+                            .signInWithEmailAndPassword(
+                                email: emailController.text,
+                                password: passwordController.text)
+                            .then((user) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomeScreen(),
+                            ),
+                          );
+                        }).catchError((e) {
+                          print(e.toString());
+                        });
+                      }
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                Row(
+                  children: const [
+                    Expanded(
+                      child: Divider(
+                        indent: 15,
+                        endIndent: 12,
+                      ),
+                    ),
+                    Text(
+                      "OR",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: "Segoe UI",
+                        color: Color.fromARGB(255, 168, 166, 166),
+                      ),
+                    ),
+                    Expanded(
+                      child: Divider(
+                        indent: 12,
+                        endIndent: 15,
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(
+                  height: 20,
+                ),
+                //Add Social media Icons
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(50),
+                        ),
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        border: Border.all(
+                          color: const Color.fromARGB(255, 255, 255, 255),
+                          width: 1,
+                        ),
+                      ),
+                      child: const Image(
+                        image: AssetImage("assets/images/facebook.png"),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(50),
+                        ),
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        border: Border.all(
+                          color: const Color.fromARGB(255, 255, 255, 255),
+                          width: 1,
+                        ),
+                      ),
+                      child: GestureDetector(
+                        onTap: () async {
+                          //call signin method of google sign in
+                          final googleSignIn = GoogleSignIn();
+                          final user = await googleSignIn.signIn();
+
+                          //To check if user select google aacount or not
+                          if (user != null) {
+                            print(user.photoUrl);
+                            // to save user on authentication
+                            final authenticatedUser = await user.authentication;
+
+                            // //Add GoogleAuthPrvoder to firebase
+                            final authProvider = GoogleAuthProvider.credential(
+                              idToken: authenticatedUser.idToken,
+                              accessToken: authenticatedUser.accessToken,
+                            );
+
+                            await FirebaseAuth.instance
+                                .signInWithCredential(authProvider);
+                            //Add to firebase and redirect to home screen
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (_) => HomeScreen()));
+                          }
+                        },
+                        child: const Image(
+                          image: AssetImage(
+                            "assets/images/google.png",
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Container(
+                      width: 50,
+                      height: 45,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(50),
+                        ),
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        border: Border.all(
+                          color: const Color.fromARGB(255, 255, 255, 255),
+                          width: 1,
+                        ),
+                      ),
+                      child: const Image(
+                        image: AssetImage("assets/images/twitter.png"),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                //Already have an account?
+                Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "Don't have an account yet?  ",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: "Segoe UI",
+                            color: Color.fromARGB(255, 168, 166, 166),
+                          ),
+                        ),
+                        GestureDetector(
+                          child: const Text(
+                            "Create New",
+                            style: TextStyle(
+                              fontFamily: "Segoe UI",
+                              fontSize: 16,
+                              color: Color.fromARGB(255, 0, 179, 134),
+                            ),
+                          ),
+
+                          //When user click on Create New It will navigate to SignUp Page
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignUpScreen()),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );
