@@ -84,10 +84,10 @@ class SignUpScreen extends StatelessWidget {
               const SizedBox(
                 height: 25,
               ),
-              Form(
-                key: formKey,
-                child: Container(
-                  width: 370,
+              Container(
+                width: 370,
+                child: Form(
+                  key: formKey,
                   child: Column(
                     children: [
                       GeneralTextField(
@@ -157,18 +157,26 @@ class SignUpScreen extends StatelessWidget {
                             ),
                           ),
 
-                          //OnPressed sign up to firebase
-
+                          //OnPressed sign up to firebase and navigate to home screen
                           onPressed: () async {
                             if (formKey.currentState!.validate()) {
-                              final emailAddress = emailController.text;
-                              final passwordForUser = passwordController.text;
-
-                              final user = await FirebaseAuth.instance
-                                  .createUserWithEmailAndPassword(
-                                email: emailAddress,
-                                password: passwordForUser,
-                              );
+                              try {
+                                final user =
+                                    await auth.createUserWithEmailAndPassword(
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                );
+                                if (user != null) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => HomeScreen(),
+                                    ),
+                                  );
+                                }
+                              } catch (e) {
+                                print(e.toString());
+                              }
                             }
                           },
                         ),
