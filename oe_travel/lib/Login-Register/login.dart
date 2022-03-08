@@ -5,6 +5,7 @@ import 'package:oe_travel/Login-Register/forgot_password.dart';
 import 'package:oe_travel/Login-Register/signup.dart';
 import 'package:oe_travel/home/home_screen.dart';
 import 'package:oe_travel/widgets/general_text_field.dart';
+import 'package:oe_travel/widgets/password_field.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -85,56 +86,67 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(
                   height: 30,
                 ),
-                GeneralTextField(
-                  title: "Email",
-                  textInputType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
-                  validate: (value) {
-                    if (value!.trim().isEmpty) {
-                      return "Please enter your email";
-                    }
-                    return null;
-                  },
-                  controller: emailController,
+
+                Container(
+                  width: 370,
+                  child: GeneralTextField(
+                    title: "Email",
+                    textInputType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.next,
+                    validate: (value) {
+                      if (value!.trim().isEmpty) {
+                        return "Please enter your email";
+                      }
+                      return null;
+                    },
+                    controller: emailController,
+                  ),
                 ),
                 const SizedBox(height: 20),
-                GeneralTextField(
-                  title: "Password",
-                  textInputType: TextInputType.text,
-                  textInputAction: TextInputAction.done,
-                  validate: (value) {
-                    if (value!.trim().isEmpty) {
-                      return "Please enter your password";
-                    }
-                    return null;
-                  },
-                  controller: passwordController,
+                Container(
+                  width: 370,
+                  child: PasswordField(
+                    title: "Password",
+                    textInputType: TextInputType.text,
+                    textInputAction: TextInputAction.done,
+                    validate: (value) {
+                      if (value!.trim().isEmpty) {
+                        return "Please enter your password";
+                      }
+                      return null;
+                    },
+                    controller: passwordController,
+                  ),
                 ),
+
                 const SizedBox(
                   height: 20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    GestureDetector(
-                      child: const Text(
-                        "Forgot Password?",
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontFamily: "Segoe UI",
-                          decoration: TextDecoration.underline,
-                          color: Color.fromARGB(255, 168, 166, 166),
-                        ),
-                      ),
-                      //When user tap on forgot password navigate to forgot password screen
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ForgotPassword(),
+                    Container(
+                      width: 150,
+                      child: GestureDetector(
+                        child: const Text(
+                          "Forgot Password?",
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontFamily: "Segoe UI",
+                            decoration: TextDecoration.underline,
+                            color: Color.fromARGB(255, 168, 166, 166),
                           ),
-                        );
-                      },
+                        ),
+                        //When user tap on forgot password navigate to forgot password screen
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ForgotPassword(),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -142,7 +154,7 @@ class LoginScreen extends StatelessWidget {
                   height: 20,
                 ),
                 Container(
-                  width: double.infinity,
+                  width: 370,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       primary: const Color.fromARGB(255, 0, 179, 134),

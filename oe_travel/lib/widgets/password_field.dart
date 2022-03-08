@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class GeneralTextField extends StatefulWidget {
-  const GeneralTextField(
+class PasswordField extends StatefulWidget {
+  const PasswordField(
       {required this.title,
       required this.textInputType,
       required this.textInputAction,
@@ -15,16 +15,18 @@ class GeneralTextField extends StatefulWidget {
   final TextInputAction textInputAction;
   final String? Function(String?)? validate;
   final TextEditingController controller;
+
   @override
-  State<GeneralTextField> createState() => _GeneralTextFieldState();
+  State<PasswordField> createState() => _PasswordFieldState();
 }
 
-class _GeneralTextFieldState extends State<GeneralTextField> {
+class _PasswordFieldState extends State<PasswordField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       keyboardType: widget.textInputType,
       textInputAction: widget.textInputAction,
+      obscureText: true,
       validator: widget.validate,
       controller: widget.controller,
       decoration: InputDecoration(
@@ -34,12 +36,12 @@ class _GeneralTextFieldState extends State<GeneralTextField> {
         suffixIcon: const Padding(
           padding: EdgeInsets.all(15),
           child: Icon(
-            Icons.email_outlined,
+            Icons.lock,
             color: Color.fromARGB(255, 196, 191, 191),
           ),
         ),
         contentPadding:
-            const EdgeInsets.symmetric(horizontal: 41, vertical: 20),
+            const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
         enabledBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(28),
