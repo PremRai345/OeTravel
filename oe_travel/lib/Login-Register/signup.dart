@@ -16,7 +16,6 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      key: formKey,
       title: 'Sign  Up',
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -84,87 +83,94 @@ class SignUpScreen extends StatelessWidget {
               const SizedBox(
                 height: 25,
               ),
-              GeneralTextField(
-                title: "Email",
-                textInputType: TextInputType.emailAddress,
-                textInputAction: TextInputAction.next,
-                validate: (value) {
-                  if (value!.trim().isEmpty) {
-                    return "Please enter your email";
-                  }
-                  return null;
-                },
-                controller: emailController,
-              ),
-              const SizedBox(
-                height: 25,
-              ),
-              GeneralTextField(
-                title: "Password",
-                textInputType: TextInputType.text,
-                textInputAction: TextInputAction.done,
-                validate: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter your Password";
-                  }
-                  return null;
-                },
-                controller: passwordController,
-              ),
-              const SizedBox(
-                height: 25,
-              ),
-              GeneralTextField(
-                title: "Confirm Password",
-                textInputType: TextInputType.text,
-                textInputAction: TextInputAction.done,
-                validate: (value) {
-                  if (value!.isEmpty) {
-                    return "Re-enter your Password";
-                  }
-                  return null;
-                },
-                controller: confirmPasswordController,
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Container(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: const Color.fromARGB(255, 0, 179, 134),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(28),
+              Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    GeneralTextField(
+                      title: "Email",
+                      textInputType: TextInputType.emailAddress,
+                      textInputAction: TextInputAction.next,
+                      validate: (value) {
+                        if (value!.trim().isEmpty) {
+                          return "Please enter your email";
+                        }
+                        return null;
+                      },
+                      controller: emailController,
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    GeneralTextField(
+                      title: "Password",
+                      textInputType: TextInputType.text,
+                      textInputAction: TextInputAction.done,
+                      validate: (value) {
+                        if (value!.isEmpty) {
+                          return "Please enter your Password";
+                        }
+                        return null;
+                      },
+                      controller: passwordController,
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    GeneralTextField(
+                      title: "Confirm Password",
+                      textInputType: TextInputType.text,
+                      textInputAction: TextInputAction.done,
+                      validate: (value) {
+                        if (value!.isEmpty) {
+                          return "Re-enter your Password";
+                        }
+                        return null;
+                      },
+                      controller: confirmPasswordController,
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: const Color.fromARGB(255, 0, 179, 134),
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(28),
+                            ),
+                          ),
+                          padding: const EdgeInsets.all(15),
+                        ),
+                        child: const Text(
+                          "Sign Up",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: "Roboto",
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+
+                        //OnPressed sign up to firebase
+
+                        onPressed: () async {
+                          if (formKey.currentState!.validate()) {
+                            final emailAddress = emailController.text;
+                            final passwordForUser = passwordController.text;
+
+                            final user = await FirebaseAuth.instance
+                                .createUserWithEmailAndPassword(
+                              email: emailAddress,
+                              password: passwordForUser,
+                            );
+                          }
+                        },
                       ),
                     ),
-                    padding: const EdgeInsets.all(15),
-                  ),
-                  child: const Text(
-                    "Sign Up",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontFamily: "Roboto",
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-
-                  //OnPressed sign up to firebase
-
-                  onPressed: () async {
-                    if (formKey.currentState!.validate()) {
-                      final emailAddress = emailController.text;
-                      final passwordForUser = passwordController.text;
-
-                      final user = await FirebaseAuth.instance
-                          .createUserWithEmailAndPassword(
-                        email: emailAddress,
-                        password: passwordForUser,
-                      );
-                    }
-                  },
+                  ],
                 ),
               ),
               const SizedBox(
