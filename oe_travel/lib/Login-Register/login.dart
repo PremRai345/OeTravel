@@ -114,6 +114,7 @@ class LoginScreen extends StatelessWidget {
                   width: 370,
                   child: PasswordField(
                     title: "Password",
+                    isObscure: true,
                     textInputType: TextInputType.text,
                     textInputAction: TextInputAction.done,
                     validate: (value) {

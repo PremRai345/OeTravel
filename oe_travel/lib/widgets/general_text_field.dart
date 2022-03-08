@@ -60,6 +60,16 @@ class _GeneralTextFieldState extends State<GeneralTextField> {
           ),
           gapPadding: 10,
         ),
+        errorBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(28),
+          ),
+          borderSide: BorderSide(
+            color: Colors.red,
+            width: 1,
+          ),
+          gapPadding: 10,
+        ),
       ),
     );
   }

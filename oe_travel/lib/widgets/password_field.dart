@@ -7,6 +7,7 @@ class PasswordField extends StatefulWidget {
       required this.textInputAction,
       required this.validate,
       required this.controller,
+      this.isObscure = false,
       Key? key})
       : super(key: key);
 
@@ -15,31 +16,47 @@ class PasswordField extends StatefulWidget {
   final TextInputAction textInputAction;
   final String? Function(String?)? validate;
   final TextEditingController controller;
+  final bool isObscure;
 
   @override
   State<PasswordField> createState() => _PasswordFieldState();
 }
 
 class _PasswordFieldState extends State<PasswordField> {
+  // late keyword will tell when widget is rendered that value is comed already
+  late bool toHide;
+
+  @override
+  void initState() {
+    super.initState();
+
+    toHide = widget.isObscure;
+  }
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      obscureText: true,
+      obscureText: toHide,
       keyboardType: widget.textInputType,
       textInputAction: widget.textInputAction,
       validator: widget.validate,
       controller: widget.controller,
       decoration: InputDecoration(
+        suffixIcon: widget.isObscure
+            ? IconButton(
+                icon: Icon(toHide
+                    ? Icons.visibility_outlined
+                    : Icons.visibility_off_outlined),
+                onPressed: () {
+                  setState(() {
+                    toHide = !toHide;
+                  });
+                },
+              )
+            : null,
         labelText: widget.title,
         hintText: "Enter your ${widget.title}",
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: const Padding(
-          padding: EdgeInsets.all(15),
-          child: Icon(
-            Icons.lock,
-            color: Color.fromARGB(255, 196, 191, 191),
-          ),
-        ),
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
         enabledBorder: const OutlineInputBorder(
@@ -58,6 +75,16 @@ class _PasswordFieldState extends State<PasswordField> {
           ),
           borderSide: BorderSide(
             color: Color.fromARGB(255, 196, 191, 191),
+            width: 1,
+          ),
+          gapPadding: 10,
+        ),
+        errorBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(28),
+          ),
+          borderSide: BorderSide(
+            color: Colors.red,
             width: 1,
           ),
           gapPadding: 10,

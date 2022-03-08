@@ -115,6 +115,7 @@ class SignUpScreen extends StatelessWidget {
                       ),
                       PasswordField(
                         title: "Password",
+                        isObscure: true,
                         textInputType: TextInputType.text,
                         textInputAction: TextInputAction.done,
                         validate: (value) {
@@ -128,8 +129,9 @@ class SignUpScreen extends StatelessWidget {
                       const SizedBox(
                         height: 25,
                       ),
-                      GeneralTextField(
+                      PasswordField(
                         title: "Confirm Password",
+                        isObscure: true,
                         textInputType: TextInputType.text,
                         textInputAction: TextInputAction.done,
                         validate: (value) {
