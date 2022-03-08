@@ -97,6 +97,13 @@ class LoginScreen extends StatelessWidget {
                       if (value!.trim().isEmpty) {
                         return "Please enter your email";
                       }
+
+                      // To check valid Email
+                      if (!RegExp(
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(value)) {
+                        return "Please enter a valid email";
+                      }
                       return null;
                     },
                     controller: emailController,
