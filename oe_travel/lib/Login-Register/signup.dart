@@ -96,6 +96,7 @@ class SignUpScreen extends StatelessWidget {
                         title: "Email",
                         textInputType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
+                        onFieldSumitted: (_) {},
                         validate: (value) {
                           if (value!.trim().isEmpty) {
                             return "Please enter your email";
@@ -321,7 +322,7 @@ class SignUpScreen extends StatelessWidget {
       Navigator.pop(context);
       var message = "";
       if (ex.code == "email-already-in-use") {
-        message = "The email address is already used";
+        message = "The email is already registered.";
       } else if (ex.code == "weak-password") {
         message = "The password is too weak";
       }

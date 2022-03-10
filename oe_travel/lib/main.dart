@@ -9,7 +9,7 @@ void main() async {
 
   await Firebase.initializeApp();
 
-  //To disable the screen rotation
+  //To disable the screen rotation;
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,

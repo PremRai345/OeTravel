@@ -4,8 +4,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:oe_travel/Login-Register/forgot_password.dart';
 import 'package:oe_travel/Login-Register/signup.dart';
 import 'package:oe_travel/home/home_screen.dart';
+import 'package:oe_travel/models/firebase_user.dart';
 import 'package:oe_travel/widgets/general_text_field.dart';
 import 'package:oe_travel/widgets/password_field.dart';
+
+import '../widgets/general_alert_dialog.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -93,6 +96,9 @@ class LoginScreen extends StatelessWidget {
                     title: "Email",
                     textInputType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
+                    onFieldSumitted: (_) {
+                      // hide keyboard after task completed
+                    },
                     validate: (value) {
                       if (value!.trim().isEmpty) {
                         return "Please enter your email";
@@ -115,15 +121,16 @@ class LoginScreen extends StatelessWidget {
                   child: PasswordField(
                     title: "Password",
                     isObscure: true,
+                    controller: passwordController,
                     textInputType: TextInputType.text,
                     textInputAction: TextInputAction.done,
                     validate: (value) {
                       if (value!.trim().isEmpty) {
                         return "Please enter your password";
                       }
+
                       return null;
                     },
-                    controller: passwordController,
                   ),
                 ),
 
@@ -164,43 +171,27 @@ class LoginScreen extends StatelessWidget {
                 Container(
                   width: 370,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: const Color.fromARGB(255, 0, 179, 134),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(28),
+                      style: ElevatedButton.styleFrom(
+                        primary: const Color.fromARGB(255, 0, 179, 134),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(28),
+                          ),
+                        ),
+                        padding: const EdgeInsets.all(15),
+                      ),
+                      child: const Text(
+                        "Login",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: "Roboto",
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
-                      padding: const EdgeInsets.all(15),
-                    ),
-                    child: const Text(
-                      "Login",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: "Roboto",
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    onPressed: () async {
-                      if (formKey.currentState!.validate()) {
-                        await auth
-                            .signInWithEmailAndPassword(
-                                email: emailController.text,
-                                password: passwordController.text)
-                            .then((user) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HomeScreen(),
-                            ),
-                          );
-                        }).catchError((e) {
-                          print(e.toString());
-                        });
-                      }
-                    },
-                  ),
+                      onPressed: () {
+                        _submit(context);
+                      }),
                 ),
                 const SizedBox(
                   height: 40,
@@ -274,12 +265,11 @@ class LoginScreen extends StatelessWidget {
                       child: GestureDetector(
                         onTap: () async {
                           //call signin method of google sign in
-                          final googleSignIn = GoogleSignIn();
-                          final user = await googleSignIn.signIn();
+                          final googleSignUp = GoogleSignIn();
+                          final user = await googleSignUp.signIn();
 
                           //To check if user select google aacount or not
                           if (user != null) {
-                            print(user.photoUrl);
                             // to save user on authentication
                             final authenticatedUser = await user.authentication;
 
@@ -373,5 +363,47 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _submit(context) async {
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+    try {
+      final firebaseAuth = FirebaseAuth.instance;
+      GeneralAlertDialog().customLoadingDialog(context);
+      final UserCredential = await firebaseAuth.signInWithEmailAndPassword(
+          email: emailController.text, password: passwordController.text);
+      final user = UserCredential.user;
+      if (user != null) {
+        FirebaseUser(
+            displayName: user!.displayName ?? "",
+            email: user.email ?? "",
+            photoUrl: user.photoURL ?? "",
+            uuid: user.uid);
+
+        Navigator.pop(context);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => HomeScreen(),
+          ),
+        );
+      }
+    } on FirebaseAuthException catch (ex) {
+      Navigator.pop(context);
+
+      var message = "";
+
+      if (ex.code == "wrong-password") {
+        message = " Wrong Password";
+      } else if (ex.code == "user-not-found") {
+        message = "User is not registered";
+      }
+      await GeneralAlertDialog().customAlertDialog(context, message);
+    } catch (ex) {
+      Navigator.pop(context);
+      await GeneralAlertDialog().customAlertDialog(context, ex.toString());
+    }
   }
 }

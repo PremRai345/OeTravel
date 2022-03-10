@@ -33,4 +33,30 @@ class ValidationMixin {
     }
     return null;
   }
+
+  String? validat(String value, String title) {
+    if (value.trim().isEmpty) {
+      return "Please enter your @$title";
+    }
+    return null;
+  }
+
+  String? validateAge(String value) {
+    if (value.trim().isEmpty) {
+      return "Please enter your age";
+    } else if (int.tryParse(value) == null) {
+      return "Please enter age in number";
+    }
+    if (int.parse(value) < 0 || int.parse(value) > 120) {
+      return "Please enter age in range 0-120";
+    }
+    return null;
+  }
+
+  String? validateAddress(String address) {
+    if (address.trim().isEmpty) {
+      return "Please enter your address";
+    }
+    return null;
+  }
 }
