@@ -9,9 +9,6 @@ class WelComeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: Color.fromRGBO(0, 179, 134, 1),
-      ),
       home: Scaffold(
         backgroundColor: Colors.white,
         body: Center(

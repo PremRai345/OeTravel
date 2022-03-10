@@ -1,10 +1,18 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:oe_travel/WelcomeScreen/welcome.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); //Connecting to firebase
+  WidgetsFlutterBinding.ensureInitialized(); //Connecting to firebase4
+
   await Firebase.initializeApp();
+
+  //To disable the screen rotation
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(const OeTravel());
 }
 

@@ -44,9 +44,12 @@ class _PasswordFieldState extends State<PasswordField> {
       decoration: InputDecoration(
         suffixIcon: widget.isObscure
             ? IconButton(
-                icon: Icon(toHide
-                    ? Icons.visibility_outlined
-                    : Icons.visibility_off_outlined),
+                icon: Icon(
+                  toHide
+                      ? Icons.visibility_outlined
+                      : Icons.visibility_off_outlined,
+                  color: const Color.fromARGB(255, 196, 191, 191),
+                ),
                 onPressed: () {
                   setState(() {
                     toHide = !toHide;
