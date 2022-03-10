@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:oe_travel/home/home_screen.dart';
+import 'package:oe_travel/utils/validation_mixin.dart';
+import 'package:oe_travel/widgets/general_alert_dialog.dart';
 import 'package:oe_travel/widgets/general_text_field.dart';
 import 'package:oe_travel/widgets/password_field.dart';
 
@@ -116,15 +118,11 @@ class SignUpScreen extends StatelessWidget {
                       PasswordField(
                         title: "Password",
                         isObscure: true,
-                        textInputType: TextInputType.text,
-                        textInputAction: TextInputAction.done,
-                        validate: (value) {
-                          if (value!.isEmpty) {
-                            return "Please enter your Password";
-                          }
-                          return null;
-                        },
                         controller: passwordController,
+                        textInputType: TextInputType.text,
+                        textInputAction: TextInputAction.next,
+                        validate: (value) =>
+                            ValidationMixin().validatePassword(value!),
                       ),
                       const SizedBox(
                         height: 25,
@@ -132,15 +130,16 @@ class SignUpScreen extends StatelessWidget {
                       PasswordField(
                         title: "Confirm Password",
                         isObscure: true,
+                        controller: confirmPasswordController,
                         textInputType: TextInputType.text,
                         textInputAction: TextInputAction.done,
-                        validate: (value) {
-                          if (value!.isEmpty) {
-                            return "Re-enter your Password";
-                          }
-                          return null;
-                        },
-                        controller: confirmPasswordController,
+
+                        // Check password match
+                        validate: (value) => ValidationMixin().validatePassword(
+                          passwordController.text,
+                          isConfirmPassword: true,
+                          confirmValue: value!,
+                        ),
                       ),
                       const SizedBox(
                         height: 30,
@@ -167,27 +166,9 @@ class SignUpScreen extends StatelessWidget {
                             ),
                           ),
 
-                          //OnPressed sign up to firebase and navigate to home screen
-                          onPressed: () async {
-                            if (formKey.currentState!.validate()) {
-                              try {
-                                final user =
-                                    await auth.createUserWithEmailAndPassword(
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                );
-                                if (user != null) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HomeScreen(),
-                                    ),
-                                  );
-                                }
-                              } catch (e) {
-                                print(e.toString());
-                              }
-                            }
+                          //OnPressed submit function is called
+                          onPressed: () {
+                            submit(context);
                           },
                         ),
                       ),
@@ -323,5 +304,31 @@ class SignUpScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+// Sign up to firebase when user fill the form and select sign up button
+  submit(context) async {
+    try {
+      if (formKey.currentState!.validate()) {
+        final firebaseAuth = FirebaseAuth.instance;
+        GeneralAlertDialog().customLoadingDialog(context);
+        await firebaseAuth.createUserWithEmailAndPassword(
+            email: emailController.text, password: passwordController.text);
+        Navigator.pop(context);
+        Navigator.pop(context);
+      }
+    } on FirebaseAuthException catch (ex) {
+      Navigator.pop(context);
+      var message = "";
+      if (ex.code == "email-already-in-use") {
+        message = "The email address is already used";
+      } else if (ex.code == "weak-password") {
+        message = "The password is too weak";
+      }
+      await GeneralAlertDialog().customAlertDialog(context, message);
+    } catch (ex) {
+      Navigator.pop(context);
+      await GeneralAlertDialog().customAlertDialog(context, ex.toString());
+    }
   }
 }
