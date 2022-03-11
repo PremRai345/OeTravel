@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:oe_travel/widgets/general_text_field.dart';
 
 class ProfileField extends StatefulWidget {
   const ProfileField({
@@ -45,22 +46,44 @@ class _ProfileFieldState extends State<ProfileField> {
       obscureText: toHide,
       textInputAction: widget.textInputAction,
       decoration: InputDecoration(
-        suffixIcon: widget.isObscure
-            ? IconButton(
-                icon: Icon(
-                  toHide
-                      ? Icons.visibility_outlined
-                      : Icons.visibility_off_outlined,
-                ),
-                onPressed: () {
-                  setState(() {
-                    toHide = !toHide;
-                  });
-                },
-              )
-            : null,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
         hintText: "Enter your ${widget.title}",
+        //Make filled color transparent
+        filled: true,
+        fillColor: Color.fromARGB(255, 223, 222, 222).withOpacity(0.5),
         counter: const SizedBox.shrink(),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 41, vertical: 20),
+        enabledBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(28),
+          ),
+          borderSide: BorderSide(
+            color: Color.fromARGB(255, 196, 191, 191),
+            width: 1,
+          ),
+          gapPadding: 10,
+        ),
+        focusedBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(28),
+          ),
+          borderSide: BorderSide(
+            color: Color.fromARGB(255, 196, 191, 191),
+            width: 1,
+          ),
+          gapPadding: 10,
+        ),
+        errorBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(28),
+          ),
+          borderSide: BorderSide(
+            color: Colors.red,
+            width: 1,
+          ),
+          gapPadding: 10,
+        ),
       ),
       controller: widget.controller,
       inputFormatters: widget.inputFormatter,

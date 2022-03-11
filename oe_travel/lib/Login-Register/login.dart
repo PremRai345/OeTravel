@@ -5,8 +5,10 @@ import 'package:oe_travel/Login-Register/forgot_password.dart';
 import 'package:oe_travel/Login-Register/signup.dart';
 import 'package:oe_travel/home/home_screen.dart';
 import 'package:oe_travel/models/firebase_user.dart';
+import 'package:oe_travel/providers/user_provider.dart';
 import 'package:oe_travel/widgets/general_text_field.dart';
 import 'package:oe_travel/widgets/password_field.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/general_alert_dialog.dart';
 
@@ -265,8 +267,8 @@ class LoginScreen extends StatelessWidget {
                       child: GestureDetector(
                         onTap: () async {
                           //call signin method of google sign in
-                          final googleSignUp = GoogleSignIn();
-                          final user = await googleSignUp.signIn();
+                          final googleSignIn = GoogleSignIn();
+                          final user = await googleSignIn.signIn();
 
                           //To check if user select google aacount or not
                           if (user != null) {
@@ -376,11 +378,12 @@ class LoginScreen extends StatelessWidget {
           email: emailController.text, password: passwordController.text);
       final user = UserCredential.user;
       if (user != null) {
-        FirebaseUser(
-            displayName: user!.displayName ?? "",
-            email: user.email ?? "",
-            photoUrl: user.photoURL ?? "",
-            uuid: user.uid);
+        Provider.of<UserProvider>(context, listen: false).setUser(FirebaseUser(
+          displayName: user.displayName,
+          email: user.email,
+          photoUrl: user.photoURL,
+          uuid: user.uid,
+        ).toJson());
 
         Navigator.pop(context);
         Navigator.pushReplacement(

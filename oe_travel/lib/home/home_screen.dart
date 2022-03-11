@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:oe_travel/Login-Register/profile_screen.dart';
+import 'package:oe_travel/providers/user_provider.dart';
+import 'package:oe_travel/theme/theme_data.dart';
 
 import 'package:oe_travel/utils/navigate.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/curved_body_widget.dart';
 
@@ -14,29 +17,29 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color.fromRGBO(0, 179, 134, 1),
           centerTitle: true,
           title: const Text("Oe Travel"),
           elevation: 0,
         ),
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         drawer: Drawer(
           child: Column(
             children: [
-              UserAccountsDrawerHeader(
-                decoration: const BoxDecoration(
-                  color: Color.fromRGBO(0, 179, 134, 1),
-                ),
-                accountName: const Text("Prem"),
-                accountEmail: const Text(
-                  "prem@gmail.com",
-                ),
-                currentAccountPicture: Hero(
-                  tag: "image-hero",
-                  child: CircleAvatar(
-                    backgroundImage: NetworkImage(image),
+              Consumer<UserProvider>(builder: (_, data, __) {
+                return UserAccountsDrawerHeader(
+                  decoration: const BoxDecoration(
+                    color: Color.fromRGBO(0, 179, 134, 1),
                   ),
-                ),
-              ),
+                  accountName: Text(data.user.name ?? "No Name Provided"),
+                  accountEmail: Text(data.user.email ?? "No Email Provided"),
+                  currentAccountPicture: Hero(
+                    tag: "image-hero",
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage(data.user.image ?? image),
+                    ),
+                  ),
+                );
+              }),
               ListTile(
                 title: Text("User Profile"),
                 // use animated icon

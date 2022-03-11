@@ -2,7 +2,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:oe_travel/WelcomeScreen/welcome.dart';
+import 'package:oe_travel/providers/user_provider.dart';
+import 'package:oe_travel/theme/theme_data.dart';
+
+
 import 'package:oe_travel/utils/size_config.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); //Connecting to firebase4
@@ -23,14 +28,24 @@ class OeTravel extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      SizeConfig().init(constraints);
-
-      return const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Oe Travel',
-        home: WelComeScreen(),
-      );
-    });
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+      ],
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          SizeConfig().init(constraints);
+    
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: lightTheme(context),
+            title: 'Oe Travel',
+            //import theme from theme data
+    
+            home: WelComeScreen(),
+          );
+        },
+      ),
+    );
   }
 }
