@@ -1,11 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:oe_travel/Login-Register/profile_screen.dart';
 import 'package:oe_travel/providers/user_provider.dart';
-import 'package:oe_travel/theme/theme_data.dart';
 
 import 'package:oe_travel/utils/navigate.dart';
 import 'package:provider/provider.dart';
 
+import '../utils/size_config.dart';
 import '../widgets/curved_body_widget.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -34,16 +36,39 @@ class HomeScreen extends StatelessWidget {
                   accountEmail: Text(data.user.email ?? "No Email Provided"),
                   currentAccountPicture: Hero(
                     tag: "image-hero",
-                    child: CircleAvatar(
-                      backgroundImage: NetworkImage(data.user.image ?? image),
+                    child: SizedBox(
+                      height: SizeConfig.height * 16,
+                      width: SizeConfig.height * 16,
+                      child: GestureDetector(
+                        //When user tap on image navigae to profile screen
+                        onTap: () => navigate(
+                          context,
+                          ProfileScreen(
+                            imageUrl: image,
+                          ),
+                        ),
+                        child: ClipRRect(
+                          borderRadius:
+                              BorderRadius.circular(SizeConfig.height * 8),
+                          child: data.user.image == null
+                              ? Image.network(
+                                  image,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.memory(
+                                  base64Decode(data.user.image!),
+                                  fit: BoxFit.cover,
+                                ),
+                        ),
+                      ),
                     ),
                   ),
                 );
               }),
               ListTile(
-                title: Text("User Profile"),
+                title: const Text("User Profile"),
                 // use animated icon
-                trailing: Icon(
+                trailing: const Icon(
                   Icons.person,
                 ),
                 // when user tap it will navigate to profile screen

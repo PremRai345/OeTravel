@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
@@ -10,6 +12,7 @@ import 'package:oe_travel/widgets/general_alert_dialog.dart';
 
 import 'package:oe_travel/widgets/profile_textfield_box.dart';
 import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({required this.imageUrl, Key? key}) : super(key: key);
@@ -21,9 +24,31 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // show the user's profile  value in profile screen
+    final profileData = Provider.of<UserProvider>(context).user;
+    nameController.text = profileData.name ?? "";
+    ageController.text =
+        profileData.age != null ? profileData.age.toString() : "";
+    addressController.text = profileData.address ?? "";
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        title: const Text(
+          "Profile",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontFamily: "Roboto",
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       ),
       body: CurvedBodyWidget(
@@ -34,9 +59,25 @@ class ProfileScreen extends StatelessWidget {
               children: [
                 Hero(
                   tag: 'image-hero',
-                  child: CircleAvatar(
-                    backgroundImage: NetworkImage(imageUrl),
-                    radius: SizeConfig.height * 7,
+                  child: SizedBox(
+                    height: SizeConfig.height * 16,
+                    width: SizeConfig.height * 16,
+                    child: GestureDetector(
+                      onTap: () => showBottomSheet(context),
+                      child: ClipRRect(
+                        borderRadius:
+                            BorderRadius.circular(SizeConfig.height * 8),
+                        child: profileData.image == null
+                            ? Image.network(
+                                imageUrl,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.memory(
+                                base64Decode(profileData.image!),
+                                fit: BoxFit.cover,
+                              ),
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -87,7 +128,7 @@ class ProfileScreen extends StatelessWidget {
                 SizedBox(
                   height: SizeConfig.height * 8,
                 ),
-                const Text("Verify",
+                const Text("Update",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 21,
@@ -103,24 +144,38 @@ class ProfileScreen extends StatelessWidget {
                   child: FloatingActionButton(
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        GeneralAlertDialog().customLoadingDialog(context);
-                        final map =
-                            Provider.of<UserProvider>(context, listen: false)
-                                .updateUser(
-                          name: nameController.text,
-                          address: addressController.text,
-                          age: int.parse(ageController.text),
-                        );
-                        final fireStore = FirebaseFirestore.instance;
-                        await fireStore
-                            .collection(UserConstants.userCollection)
-                            .add(map);
-                        Navigator.pop(context);
-                        Navigator.pop(context);
+                        try {
+                          GeneralAlertDialog().customLoadingDialog(context);
+                          final map =
+                              Provider.of<UserProvider>(context, listen: false)
+                                  .updateUser(
+                            name: nameController.text,
+                            address: addressController.text,
+                            age: int.parse(ageController.text),
+                          );
+                          final fireStore = FirebaseFirestore.instance;
+                          final data = await fireStore
+                              .collection(UserConstants.userCollection)
+                              .where(UserConstants.userId,
+                                  isEqualTo: profileData.uuid)
+                              .get();
+                          if (data.docs.isEmpty) {
+                            await fireStore
+                                .collection(UserConstants.userCollection)
+                                .add(map);
+                          } else {
+                            data.docs.first.reference.update(map);
+                          }
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        } catch (ex) {
+                          Navigator.pop(context);
+                        }
+                        // print(map);
                       }
                     },
                     backgroundColor: const Color.fromARGB(248, 5, 190, 144),
-                    child: const Icon(Icons.thumb_up),
+                    child: const Icon(Icons.arrow_forward),
                   ),
                 ),
               ],
@@ -128,6 +183,86 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> showBottomSheet(BuildContext context) async {
+    final imagePicker = ImagePicker();
+
+    await showModalBottomSheet(
+      context: context,
+      builder: (_) => Padding(
+        padding: basePadding,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "Select Image",
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            SizedBox(
+              height: SizeConfig.height * 2,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                buildChooseOptions(
+                  //Pick Image From Camera
+                  context,
+                  func: () async {
+                    final xFile =
+                        await imagePicker.pickImage(source: ImageSource.camera);
+                    if (xFile != null) {
+                      final unit8list = await xFile.readAsBytes();
+                      Provider.of<UserProvider>(context, listen: false)
+                          .updateUserImage(base64Encode(unit8list));
+                    }
+                  },
+                  iconData: Icons.camera_outlined,
+                  label: "Camera",
+                ),
+                buildChooseOptions(
+                  //Pick Image From Gallery
+                  context,
+                  func: () async {
+                    final xFile = await imagePicker.pickImage(
+                        source: ImageSource.gallery);
+                    if (xFile != null) {
+                      final unit8list = await xFile.readAsBytes();
+                      Provider.of<UserProvider>(context, listen: false)
+                          .updateUserImage(base64Encode(unit8list));
+                    }
+                  },
+                  iconData: Icons.collections_outlined,
+                  label: "Gallery",
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Column buildChooseOptions(
+    BuildContext context, {
+    required Function func,
+    required IconData iconData,
+    required String label,
+  }) {
+    return Column(
+      children: [
+        IconButton(
+          onPressed: () {
+            print("object");
+            func();
+          },
+          color: Theme.of(context).primaryColor,
+          iconSize: SizeConfig.height * 6,
+          icon: Icon(iconData),
+        ),
+        Text(label),
+      ],
     );
   }
 }

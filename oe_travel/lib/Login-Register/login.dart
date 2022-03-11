@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -10,6 +11,7 @@ import 'package:oe_travel/widgets/general_text_field.dart';
 import 'package:oe_travel/widgets/password_field.dart';
 import 'package:provider/provider.dart';
 
+import '../constant/constants.dart';
 import '../widgets/general_alert_dialog.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -378,21 +380,32 @@ class LoginScreen extends StatelessWidget {
           email: emailController.text, password: passwordController.text);
       final user = UserCredential.user;
       if (user != null) {
-        Provider.of<UserProvider>(context, listen: false).setUser(FirebaseUser(
-          displayName: user.displayName,
-          email: user.email,
-          photoUrl: user.photoURL,
-          uuid: user.uid,
-        ).toJson());
+        final firestore = FirebaseFirestore.instance;
+        final data = await firestore
+            .collection(UserConstants.userCollection)
+            .where(UserConstants.userId, isEqualTo: user.uid)
+            .get();
+        var map = {};
 
-        Navigator.pop(context);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (_) => HomeScreen(),
-          ),
-        );
+        if (data.docs.isEmpty) {
+          map = FirebaseUser(
+            displayName: user.displayName,
+            email: user.email,
+            photoUrl: user.photoURL,
+            uuid: user.uid,
+          ).toJson();
+        } else {
+          map = data.docs.first.data();
+        }
+        Provider.of<UserProvider>(context, listen: false).setUser(map);
       }
+      Navigator.pop(context);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => HomeScreen(),
+        ),
+      );
     } on FirebaseAuthException catch (ex) {
       Navigator.pop(context);
 
