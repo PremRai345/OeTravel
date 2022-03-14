@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:oe_travel/widgets/general_text_field.dart';
 
-class ProfileField extends StatefulWidget {
-  const ProfileField({
+class DestinationField extends StatefulWidget {
+  const DestinationField({
     required this.title,
     required this.controller,
     required this.textInputType,
@@ -27,10 +26,10 @@ class ProfileField extends StatefulWidget {
   final void Function(String)? onFieldSubmitted;
 
   @override
-  State<ProfileField> createState() => _ProfileFieldState();
+  State<DestinationField> createState() => _DestinationFieldState();
 }
 
-class _ProfileFieldState extends State<ProfileField> {
+class _DestinationFieldState extends State<DestinationField> {
   late bool toHide;
 
   @override
@@ -47,7 +46,7 @@ class _ProfileFieldState extends State<ProfileField> {
       textInputAction: widget.textInputAction,
       decoration: InputDecoration(
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        hintText: "Enter your ${widget.title}",
+        hintText: "Provide ${widget.title} ",
         //Make filled color transparent
         filled: true,
         fillColor: Color.fromARGB(255, 223, 222, 222).withOpacity(0.5),

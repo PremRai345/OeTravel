@@ -94,6 +94,7 @@ class SignUpScreen extends StatelessWidget {
                     children: [
                       GeneralTextField(
                         title: "Email",
+                        icon: Icons.email_outlined,
                         textInputType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
                         onFieldSumitted: (_) {},

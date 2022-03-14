@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:oe_travel/widgets/general_text_field.dart';
 
-class ProfileField extends StatefulWidget {
-  const ProfileField({
+class DestinationDesField extends StatefulWidget {
+  const DestinationDesField({
     required this.title,
     required this.controller,
     required this.textInputType,
@@ -27,10 +26,10 @@ class ProfileField extends StatefulWidget {
   final void Function(String)? onFieldSubmitted;
 
   @override
-  State<ProfileField> createState() => _ProfileFieldState();
+  State<DestinationDesField> createState() => _DestinationDesFieldState();
 }
 
-class _ProfileFieldState extends State<ProfileField> {
+class _DestinationDesFieldState extends State<DestinationDesField> {
   late bool toHide;
 
   @override
@@ -47,13 +46,17 @@ class _ProfileFieldState extends State<ProfileField> {
       textInputAction: widget.textInputAction,
       decoration: InputDecoration(
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        hintText: "Enter your ${widget.title}",
+        hintText: "Provide ${widget.title} ",
         //Make filled color transparent
         filled: true,
         fillColor: Color.fromARGB(255, 223, 222, 222).withOpacity(0.5),
         counter: const SizedBox.shrink(),
         contentPadding:
-            const EdgeInsets.symmetric(horizontal: 41, vertical: 20),
+            const EdgeInsets.symmetric(horizontal: 41, vertical: 50),
+
+            //if the text is too long, it will show the text in the next line
+        
+
         enabledBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(10),

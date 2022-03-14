@@ -8,6 +8,7 @@ class GeneralTextField extends StatefulWidget {
       required this.validate,
       required this.controller,
       required this.onFieldSumitted,
+      this.icon, //optional to select icon in general text field
       Key? key})
       : super(key: key);
 
@@ -17,6 +18,7 @@ class GeneralTextField extends StatefulWidget {
   final String? Function(String?)? validate;
   final TextEditingController controller;
   final void Function(String)? onFieldSumitted;
+  final IconData? icon; // Option to select icon in general text field
   @override
   State<GeneralTextField> createState() => _GeneralTextFieldState();
 }
@@ -33,13 +35,7 @@ class _GeneralTextFieldState extends State<GeneralTextField> {
         labelText: widget.title,
         hintText: "Enter your ${widget.title}",
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: const Padding(
-          padding: EdgeInsets.all(15),
-          child: Icon(
-            Icons.email_outlined,
-            color: Color.fromARGB(255, 196, 191, 191),
-          ),
-        ),
+        suffixIcon: Icon(widget.icon),
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 41, vertical: 20),
         enabledBorder: const OutlineInputBorder(

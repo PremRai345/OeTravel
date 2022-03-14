@@ -98,6 +98,7 @@ class LoginScreen extends StatelessWidget {
                   width: 370,
                   child: GeneralTextField(
                     title: "Email",
+                    icon: Icons.email_outlined,
                     textInputType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
                     onFieldSumitted: (_) {

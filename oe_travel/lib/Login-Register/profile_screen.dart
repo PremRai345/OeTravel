@@ -62,21 +62,42 @@ class ProfileScreen extends StatelessWidget {
                   child: SizedBox(
                     height: SizeConfig.height * 16,
                     width: SizeConfig.height * 16,
-                    child: GestureDetector(
-                      onTap: () => showBottomSheet(context),
-                      child: ClipRRect(
-                        borderRadius:
-                            BorderRadius.circular(SizeConfig.height * 8),
-                        child: profileData.image == null
-                            ? Image.network(
-                                imageUrl,
-                                fit: BoxFit.cover,
-                              )
-                            : Image.memory(
-                                base64Decode(profileData.image!),
-                                fit: BoxFit.cover,
+                    child: Stack(
+                      // Stack is used to show the camera icon with profile image.
+                      children: [
+                        ClipRRect(
+                          borderRadius:
+                              BorderRadius.circular(SizeConfig.height * 8),
+                          child: profileData.image == null
+                              ? Image.network(
+                                  imageUrl,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.memory(
+                                  base64Decode(profileData.image!),
+                                  fit: BoxFit.cover,
+                                ),
+                        ),
+
+                        //Camera Icon with profile Image
+                        Positioned(
+                          bottom: 4,
+                          left: 75,
+                          child: GestureDetector(
+                            onTap: () => showBottomSheet(context),
+                            child: const CircleAvatar(
+                              radius: 16.0,
+                              backgroundColor:
+                                  Color.fromARGB(255, 197, 195, 195),
+                              child: Icon(
+                                Icons.camera_alt_sharp,
+                                size: 20.0,
+                                color: Colors.white,
                               ),
-                      ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

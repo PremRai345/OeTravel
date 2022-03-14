@@ -8,6 +8,7 @@ class PasswordField extends StatefulWidget {
       required this.validate,
       required this.controller,
       this.isObscure = false,
+      this.icon, // optional to select icon
       Key? key})
       : super(key: key);
 
@@ -17,6 +18,7 @@ class PasswordField extends StatefulWidget {
   final String? Function(String?)? validate;
   final TextEditingController controller;
   final bool isObscure;
+  final IconData? icon; //Option to select icon
 
   @override
   State<PasswordField> createState() => _PasswordFieldState();

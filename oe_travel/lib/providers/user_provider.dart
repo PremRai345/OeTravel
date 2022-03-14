@@ -33,4 +33,12 @@ class UserProvider extends ChangeNotifier {
     //   "image": _user.image,
     // };
   }
+
+  addDestinationImage(String image) {
+    _user.image = image;
+    notifyListeners();
+    // return {
+    //   "image": _user.image,
+    // };
+  }
 }

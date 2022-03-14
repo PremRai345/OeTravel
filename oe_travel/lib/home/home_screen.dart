@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:oe_travel/Admin/destination.dart';
+import 'package:oe_travel/Admin/settings.dart';
 import 'package:oe_travel/Login-Register/profile_screen.dart';
 import 'package:oe_travel/providers/user_provider.dart';
 
@@ -65,20 +67,74 @@ class HomeScreen extends StatelessWidget {
                   ),
                 );
               }),
-              ListTile(
-                title: const Text("User Profile"),
-                // use animated icon
-                trailing: const Icon(
-                  Icons.person,
+
+              //Called Dynamic build List and given value to it
+              buildListTile(
+                context,
+                label: "Profile",
+                widget: ProfileScreen(
+                  imageUrl: image,
                 ),
-                // when user tap it will navigate to profile screen
-                // navigation will be done using navigate function made on utils
-                onTap: () => navigate(
-                  context,
-                  ProfileScreen(
-                    imageUrl: image,
+                icon: Icons.person,
+              ),
+              buildListTile(
+                context,
+                label: "Add Destination",
+                widget: AddDestination(
+                  imageUrl: image,
+                ),
+                icon: Icons.travel_explore,
+              ),
+              buildListTile(
+                context,
+                label: "Settings",
+                widget: const Settings(),
+                icon: Icons.settings,
+              ),
+
+              SizedBox(
+                height: SizeConfig.height * 28,
+              ),
+
+              //For Follow Us
+              const ListTile(
+                title: Text(
+                  "Follow Us",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
+              ),
+              SizedBox(
+                height: SizeConfig.height * 2,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    width: 35,
+                    height: 35,
+                    child: const Image(
+                      image: AssetImage("assets/images/facebook.png"),
+                    ),
+                  ),
+                  Container(
+                    width: 35,
+                    height: 35,
+                    child: const Image(
+                      image: AssetImage("assets/images/twitter.png"),
+                    ),
+                  ),
+                  Container(
+                    width: 35,
+                    height: 35,
+                    child: const Image(
+                      image: AssetImage("assets/images/instagram.png"),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -92,5 +148,22 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ));
+  }
+
+//Dynamically build list tile for drawer we can use as much as we want.
+  Widget buildListTile(
+    BuildContext context, {
+    required String label,
+    required Widget widget,
+    required IconData icon,
+  }) {
+    return ListTile(
+      title: Text(label),
+      trailing: Icon(icon),
+      onTap: () => navigate(
+        context,
+        widget,
+      ),
+    );
   }
 }

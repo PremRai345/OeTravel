@@ -11,3 +11,8 @@ class UserConstants {
   static const userCollection = "user";
   static const userId = "uuid";
 }
+
+class DestinationConstants {
+  static const destinationCollection = "destination";
+  static const userId = "uuid";
+}
