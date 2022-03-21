@@ -18,12 +18,8 @@ class DestinationProvider extends ChangeNotifier {
 
       if (data.docs.length != _listOfDestination.length) {
         _listOfDestination.clear();
-        // data.docs.forEach((element) {
-        //   _listOfDestination.add(Destination.fromJson(element.data()));
-        // });
+
         for (var element in data.docs) {
-          // print(element.data());
-          // print(element.id);
           _listOfDestination
               .add(Destination.fromJson(element.data(), element.id));
         }
@@ -33,11 +29,11 @@ class DestinationProvider extends ChangeNotifier {
     }
   }
 
-  
   fetchIndiviudalDestinationData({
     required String destinationId,
     required String destinationName,
     required String destinationDescription,
+    required String destinationImageUrl,
   }) async {
     try {
       FirebaseHelper().getData(
@@ -50,18 +46,17 @@ class DestinationProvider extends ChangeNotifier {
     }
   }
 
-  addHotelData(
+  addDestinationData(
     BuildContext context,
     String destinationName,
     String destinationDescription,
+    String destinationImageUrl,
   ) async {
     try {
-      // final uuid = Provider.of<UserProvider>(context, listen: false).user.uuid;
       final destination = Destination(
         destinationName: destinationName,
         destinationDescription: destinationDescription,
-
-        // uuid: uuid,
+        destinationImageUrl: destinationImageUrl,
       );
       final map = destination.toJson();
       await FirebaseHelper().addData(

@@ -19,7 +19,7 @@ class HomeScreen extends StatelessWidget {
   final String imageOfDestination =
       "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60";
   final image =
-      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
+      "https://cdn.britannica.com/68/178668-050-DA998E6C/Durbar-Square-heart-district-Kathmandu-earthquake-Nepal-April-25-2015.jpg";
 
   @override
   Widget build(BuildContext context) {
@@ -243,9 +243,18 @@ class HomeScreen extends StatelessWidget {
     required String imageUrl,
   }) {
     return Card(
+      margin: EdgeInsets.symmetric(
+        horizontal: SizeConfig.width * 3,
+        vertical: SizeConfig.height * 2,
+      ),
       elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(
+          SizeConfig.height * 5,
+        ),
+      ),
       shadowColor: Colors.grey,
-      color: Color.fromARGB(255, 240, 236, 236),
+      color: Color.fromARGB(255, 248, 246, 246),
       child: Padding(
         padding: EdgeInsets.all(
           SizeConfig.height,

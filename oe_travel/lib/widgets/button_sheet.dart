@@ -7,8 +7,9 @@ import 'package:oe_travel/providers/user_provider.dart';
 import 'package:oe_travel/utils/size_config.dart';
 import 'package:provider/provider.dart';
 
-class showBottomImageSheet{
-Future<void> showBottomSheet(BuildContext context) async {
+class showBottomImageSheet {
+  Future<void>
+   showBottomSheet(BuildContext context) async {
     final imagePicker = ImagePicker();
 
     await showModalBottomSheet(
@@ -36,11 +37,11 @@ Future<void> showBottomSheet(BuildContext context) async {
                           if (xFile != null) {
                             final uint8List = await xFile.readAsBytes();
                             final map = Provider.of<UserProvider>(context,
-                                    listen: false).
-                                updateUserImage(base64Encode(uint8List));
+                                    listen: false)
+                                .updateUserImage(base64Encode(uint8List));
                           }
                         },
-                        iconData: Icons.photo_camera_outlined,
+                        iconData: Icons.camera_alt,
                         label: "Camera",
                       ),
                       buildPhotoChooseOption(
@@ -74,7 +75,7 @@ Future<void> showBottomSheet(BuildContext context) async {
       children: [
         IconButton(
           onPressed: () => function(),
-          color: Theme.of(context).primaryColor,
+          color: Colors.grey,
           icon: Icon(iconData),
           iconSize: SizeConfig.height * 5,
         ),

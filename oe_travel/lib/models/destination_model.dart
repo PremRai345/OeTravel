@@ -1,13 +1,14 @@
 class Destination {
+  late String? id;
   late String destinationName;
   late String destinationDescription;
-
-  late String? id;
+  late String destinationImageUrl;
 
   Destination({
+    this.id,
     required this.destinationName,
     required this.destinationDescription,
-    this.id,
+    required this.destinationImageUrl,
   });
 
   Destination.fromJson(
@@ -16,6 +17,7 @@ class Destination {
   ) {
     destinationName = obj["destinationName"];
     destinationDescription = obj["destinationDescription"];
+    destinationImageUrl = obj["destinationImageUrl"];
   }
 
   Map<String, dynamic> toJson() {
@@ -23,6 +25,7 @@ class Destination {
     map["destinationName"] = destinationName;
 
     map["destinationDescription"] = destinationDescription;
+    map["destinationImageUrl"] = destinationImageUrl;
 
     return map;
   }

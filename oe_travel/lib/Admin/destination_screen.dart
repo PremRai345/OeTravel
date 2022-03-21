@@ -31,7 +31,22 @@ class AddDestination extends StatelessWidget {
         .fetchDestinationData(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Destination"),
+        title: const Text(
+          "Add Destination",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontFamily: "Roboto",
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: CurvedBodyWidget(
         widget: SingleChildScrollView(
@@ -39,7 +54,7 @@ class AddDestination extends StatelessWidget {
               future: future,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
@@ -50,14 +65,14 @@ class AddDestination extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Add Destination Information",
+                        "Please provide destination details",
                         style: Theme.of(context).textTheme.headline6,
                       ),
                       SizedBox(
                         height: SizeConfig.height * 2,
                       ),
                       Text(
-                        "Destination Name",
+                        " Name",
                         style: Theme.of(context).textTheme.bodyText2,
                       ),
                       SizedBox(
@@ -76,14 +91,14 @@ class AddDestination extends StatelessWidget {
                         height: SizeConfig.height * 2,
                       ),
                       Text(
-                        "Destination ",
+                        "Description",
                         style: Theme.of(context).textTheme.bodyText2,
                       ),
                       SizedBox(
                         height: SizeConfig.height,
                       ),
                       InputTextField(
-                        title: "Destination ",
+                        title: "Destination  Description",
                         textInputType: TextInputType.text,
                         textInputAction: TextInputAction.next,
                         controller: destinationDescriptionController,
@@ -92,13 +107,21 @@ class AddDestination extends StatelessWidget {
                         onFieldSubmitted: (_) {},
                       ),
                       SizedBox(
-                        height: SizeConfig.height * 2,
+                        height: SizeConfig.height * 5,
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          showBottomImageSheet().showBottomSheet(context);
-                        },
-                        child: Text("Upload Image"),
+                      Center(
+                        child: FloatingActionButton(
+                          hoverColor: Colors.green,
+                          focusColor: Colors.orange,
+                          backgroundColor: Color.fromARGB(255, 13, 141, 158),
+                          onPressed: () {
+                            showBottomImageSheet().showBottomSheet(context);
+                          },
+                          child: const Icon(
+                            Icons.add,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                       SizedBox(
                         height: SizeConfig.height * 2,
@@ -106,7 +129,7 @@ class AddDestination extends StatelessWidget {
                       Center(
                         child: ElevatedButton(
                           onPressed: () => submit(context),
-                          child: Text("Submit"),
+                          child: const Text("Submit"),
                         ),
                       ),
                     ],
@@ -126,16 +149,18 @@ class AddDestination extends StatelessWidget {
         final map = Destination(
           destinationName: destinationNameController.text,
           destinationDescription: destinationDescriptionController.text,
+          destinationImageUrl: destinationImageUrl,
         ).toJson();
 
         Navigator.pop(context);
         Navigator.pop(context);
 
         await Provider.of<DestinationProvider>(context, listen: false)
-            .addHotelData(
+            .addDestinationData(
           context,
           destinationNameController.text,
           destinationDescriptionController.text,
+          destinationImageUrl,
         );
       } catch (ex) {
         print(ex.toString());
