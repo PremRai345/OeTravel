@@ -236,84 +236,59 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Card destinationCard(
+  destinationCard(
     BuildContext context, {
     required String destinationName,
     required String destinationDescription,
     required String imageUrl,
   }) {
-    return Card(
-      margin: EdgeInsets.symmetric(
-        horizontal: SizeConfig.width * 3,
-        vertical: SizeConfig.height * 2,
+    return Padding(
+      padding: EdgeInsets.all(
+        SizeConfig.height * 2,
       ),
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(
-          SizeConfig.height * 5,
-        ),
-      ),
-      shadowColor: Colors.grey,
-      color: Color.fromARGB(255, 248, 246, 246),
-      child: Padding(
-        padding: EdgeInsets.all(
-          SizeConfig.height,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: SizeConfig.height * 12,
-              width: SizeConfig.height * 12,
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(15),
-                image: DecorationImage(
-                  image: NetworkImage(imageUrl),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(
+                  SizeConfig.height * 2,
+                ),
+                child: Image.network(
+                  imageUrl,
                   fit: BoxFit.cover,
-                  scale: 2,
                 ),
               ),
-            ),
-            SizedBox(
-              width: SizeConfig.width * 4,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  destinationName,
-                  style: const TextStyle(
-                    fontFamily: "SanFrancisco",
-                    color: Color.fromARGB(255, 118, 119, 119),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                ),
-                SizedBox(height: SizeConfig.height),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.card_travel,
-                      color: Colors.grey,
+              Positioned(
+                bottom: 7,
+                right: 10,
+                child: Container(
+                  width: SizeConfig.width * 50,
+                  height: SizeConfig.height * 6,
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 111, 112, 112),
+                    borderRadius: BorderRadius.circular(
+                      SizeConfig.height * 2,
                     ),
-                    Text(
-                      destinationDescription,
-                      style: const TextStyle(
-                        fontFamily: "SanFrancisco",
-                        color: Color.fromARGB(255, 118, 119, 119),
-                        fontWeight: FontWeight.w700,
+                  ),
+                  child: Center(
+                    child: Text(
+                      destinationName,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: SizeConfig.height * 2.5,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
-                    const Text("..."),
-                  ],
+                  ),
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
