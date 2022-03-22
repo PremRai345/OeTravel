@@ -1,15 +1,105 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 
-class GoogleMap extends StatefulWidget {
-  const GoogleMap({Key? key, initialCameraPosition}) : super(key: key);
+class MapMultiMarker extends StatefulWidget {
+  const MapMultiMarker({Key? key}) : super(key: key);
 
   @override
-  State<GoogleMap> createState() => _GoogleMapState();
+  State<MapMultiMarker> createState() => _MapMultiMarkerState();
 }
 
-class _GoogleMapState extends State<GoogleMap> {
+class _MapMultiMarkerState extends State<MapMultiMarker> {
+  final List<Map<String, dynamic>> cityList = [
+    {
+      "address": "Kathmandu, Nepal",
+      "id": "1",
+      "image":
+          "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+      "lat": 27.7172453,
+      "lng": 85.3239605,
+      "name": "Kathmandu",
+      "region": "South Asia",
+      "type": "City",
+      "rating": "4.5",
+    },
+    {
+      "address": "Pokhara, Nepal",
+      "id": "2",
+      "image":
+          "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+      "lat": 28.2314,
+      "lng": 83.9850,
+      "name": "Pokhara",
+      "region": "South Asia",
+      "type": "City",
+      "rating": "4",
+    },
+    {
+      "address": "Illam, Nepal",
+      "id": "3",
+      "image":
+          "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+      "lat": 26.912,
+      "lng": 87.912,
+      "name": "Illam",
+      "region": "South Asia",
+      "type": "Village",
+      "rating": "5",
+    },
+    {
+      "address": "Buddhashanti, Nepal",
+      "id": "4",
+      "image":
+          "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+      "lat": 26.7244,
+      "lng": 88.0412,
+      "name": "Buddhashanti",
+      "region": "South Asia",
+      "type": "Town",
+      "rating": "8",
+    }
+  ];
+
+  final Map<String, Marker> _markers = {};
+
+  Future<void> _onMapCreated(GoogleMapController controller) async {
+    _markers.clear();
+    setState(() {
+      for (int i = 0; i < cityList.length; i++) {
+        print("For Loop");
+        final marker = Marker(
+          markerId: MarkerId(cityList[i]['name']),
+          position: LatLng(cityList[i]['lat'], cityList[i]['lng']),
+          infoWindow: InfoWindow(
+              title: cityList[i]['name'],
+              snippet: cityList[i]['address'],
+              onTap: () {
+                print("${cityList[i]['lat']}, ${cityList[i]['lng']}");
+              }),
+          onTap: () {
+            print("Clicked on marker");
+          },
+        );
+        print("${cityList[i]['lat']}, ${cityList[i]['lng']}");
+        _markers[cityList[i]['name']] = marker;
+      }
+    });
+  }
+
+  launchMap(lat, lng) {
+    MapsLauncher.launchCoordinates(lat, lng);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return GoogleMap(
+      onMapCreated: _onMapCreated,
+      initialCameraPosition: CameraPosition(
+        target: LatLng(cityList[0]['lat'], cityList[0]['lng']),
+        zoom: 4.8,
+      ),
+      markers: _markers.values.toSet(),
+    );
   }
 }

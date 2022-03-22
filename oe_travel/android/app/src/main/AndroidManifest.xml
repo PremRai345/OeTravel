@@ -1,9 +1,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.oe_travel">
+
+
+  
    <application
         android:label="Oe Travel"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+          <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyCmVmu4WLr980jJeWKP4OMRCcqK5jqoaE0"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

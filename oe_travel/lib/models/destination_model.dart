@@ -4,14 +4,12 @@ class Destination {
   late String destinationDescription;
   late String destinationImageUrl;
 
-  Destination(
-    {
+  Destination({
     this.id,
     required this.destinationName,
     required this.destinationDescription,
     required this.destinationImageUrl,
-  }
-  );
+  });
 
   Destination.fromJson(
     Map obj,

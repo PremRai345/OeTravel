@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:oe_travel/Admin/destination_provider.dart';
+import 'package:oe_travel/GoogleMap/google_map.dart';
 import 'package:oe_travel/WelcomeScreen/welcome.dart';
 import 'package:oe_travel/providers/user_provider.dart';
 import 'package:oe_travel/theme/theme_data.dart';

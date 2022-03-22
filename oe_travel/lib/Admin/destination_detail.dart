@@ -72,9 +72,18 @@ class DestinationDetails extends StatelessWidget {
     required String imageUrl,
   }) {
     return Column(
-      
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ClipRect(
+        Container(
+          height: SizeConfig.height * 40,
+          width: SizeConfig.width * 40,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            image: DecorationImage(
+              image: NetworkImage(imageUrl),
+              fit: BoxFit.cover,
+            ),
+          ),
           child: imageUrl.isEmpty
               ? Image.network(
                   ImageConstants.imageDestinationUrl,

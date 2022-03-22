@@ -102,7 +102,9 @@ class HomeScreen extends StatelessWidget {
             buildListTile(
               context,
               label: "Map",
-              widget: const GoogleMap(),
+              widget: const MapMultiMarker(
+                
+              ),
               icon: Icons.map,
             ),
 
