@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:oe_travel/constant/constants.dart';
 import 'package:oe_travel/models/destination_model.dart';
@@ -59,6 +61,7 @@ class DestinationProvider extends ChangeNotifier {
         destinationImageUrl: destinationImageUrl,
       );
       final map = destination.toJson();
+      log(map.toString());
       await FirebaseHelper().addData(
         context,
         map: map,
@@ -67,7 +70,7 @@ class DestinationProvider extends ChangeNotifier {
       listOfDestination.add(destination);
       notifyListeners();
     } catch (ex) {
-      print(ex.toString());
+      throw ex.toString();
     }
   }
 

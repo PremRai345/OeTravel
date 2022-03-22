@@ -5,19 +5,20 @@ import 'package:oe_travel/Admin/destination_detail.dart';
 import 'package:oe_travel/Admin/destination_provider.dart';
 import 'package:oe_travel/Admin/destination_screen.dart';
 import 'package:oe_travel/Admin/settings.dart';
+import 'package:oe_travel/GoogleMap/google_map.dart';
 import 'package:oe_travel/Login-Register/profile_screen.dart';
 import 'package:oe_travel/providers/user_provider.dart';
 
 import 'package:oe_travel/utils/navigate.dart';
 import 'package:provider/provider.dart';
+import 'package:oe_travel/constant/constants.dart';
 
 import '../utils/size_config.dart';
 import '../widgets/curved_body_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
-  final String imageOfDestination =
-      "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60";
+
   final image =
       "https://cdn.britannica.com/68/178668-050-DA998E6C/Durbar-Square-heart-district-Kathmandu-earthquake-Nepal-April-25-2015.jpg";
 
@@ -91,9 +92,16 @@ class HomeScreen extends StatelessWidget {
             buildListTile(context,
                 label: "Add Destination",
                 widget: AddDestination(
-                  destinationImageUrl: imageOfDestination,
+                  destinationImageUrl: ImageConstants.imageDestinationUrl,
                 ),
                 icon: Icons.travel_explore_outlined),
+
+            buildListTile(
+              context,
+              label: "Map",
+              widget: const GoogleMap(),
+              icon: Icons.map,
+            ),
 
             SizedBox(
               height: SizeConfig.height * 28,
@@ -200,7 +208,8 @@ class HomeScreen extends StatelessWidget {
                                   destinationDescription:
                                       listOfDestination[index]
                                           .destinationDescription,
-                                  imageUrl: imageOfDestination,
+                                  imageUrl: listOfDestination[index]
+                                      .destinationImageUrl,
                                 ),
                               );
                             },
@@ -256,10 +265,12 @@ class HomeScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(
                   SizeConfig.height * 2,
                 ),
-                child: Image.network(
-                  imageUrl,
-                  fit: BoxFit.cover,
-                ),
+                child: imageUrl.isEmpty
+                    ? Image.network(
+                        ImageConstants.imageDestinationUrl,
+                        fit: BoxFit.cover,
+                      )
+                    : Image.memory(base64Decode(imageUrl)),
               ),
               Positioned(
                 bottom: 7,

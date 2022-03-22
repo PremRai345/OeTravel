@@ -42,8 +42,8 @@ dependencies:
   google_sign_in: ^5.2.4
   provider: ^6.0.2
   image_picker: ^0.8.4+10
+  google_maps: ^6.1.0
  
-
   
   
 

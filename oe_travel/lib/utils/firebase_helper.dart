@@ -101,7 +101,7 @@ class FirebaseHelper {
     try {
       await FirebaseFirestore.instance.collection(collectionId).add(map);
     } catch (ex) {
-      print(ex.toString());
+      throw ex.toString();
     }
   }
 

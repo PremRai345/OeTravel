@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import 'package:oe_travel/Admin/destination_provider.dart';
@@ -21,12 +23,14 @@ class AddDestination extends StatelessWidget {
 
   final destinationNameController = TextEditingController();
   final destinationDescriptionController = TextEditingController();
+  final destinationImageController = TextEditingController();
 
   final String destinationImageUrl;
   final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    destinationImageController.text = "";
     final future = Provider.of<DestinationProvider>(context, listen: false)
         .fetchDestinationData(context);
     return Scaffold(
@@ -114,8 +118,12 @@ class AddDestination extends StatelessWidget {
                           hoverColor: Colors.green,
                           focusColor: Colors.orange,
                           backgroundColor: Color.fromARGB(255, 13, 141, 158),
-                          onPressed: () {
-                            showBottomImageSheet().showBottomSheet(context);
+                          onPressed: () async {
+                            log("message");
+                            destinationImageController.text =
+                                await showBottomImageSheet().showBottomSheet(
+                                    context,
+                                    isDestination: true);
                           },
                           child: const Icon(
                             Icons.add,
@@ -146,24 +154,21 @@ class AddDestination extends StatelessWidget {
       try {
         GeneralAlertDialog().customLoadingDialog(context);
 
-        final map = Destination(
-          destinationName: destinationNameController.text,
-          destinationDescription: destinationDescriptionController.text,
-          destinationImageUrl: destinationImageUrl,
-        ).toJson();
-
-        Navigator.pop(context);
-        Navigator.pop(context);
-
         await Provider.of<DestinationProvider>(context, listen: false)
             .addDestinationData(
           context,
           destinationNameController.text,
           destinationDescriptionController.text,
-          destinationImageUrl,
+          destinationImageController.text.isEmpty
+              ? destinationImageUrl
+              : destinationImageController.text,
         );
+        // Navigator.pop(context);
+        Navigator.pop(context);
       } catch (ex) {
         print(ex.toString());
+        Navigator.pop(context);
+        GeneralAlertDialog().customAlertDialog(context, ex.toString());
       }
     }
   }
