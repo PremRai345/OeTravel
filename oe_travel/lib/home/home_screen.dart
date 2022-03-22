@@ -54,18 +54,21 @@ class HomeScreen extends StatelessWidget {
                           imageUrl: image,
                         ),
                       ),
-                      child: ClipRRect(
-                        borderRadius:
-                            BorderRadius.circular(SizeConfig.height * 8),
-                        child: data.user.image == null
-                            ? Image.network(
-                                image,
-                                fit: BoxFit.cover,
-                              )
-                            : Image.memory(
-                                base64Decode(data.user.image!),
-                                fit: BoxFit.cover,
-                              ),
+                      child: CircleAvatar(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(
+                            SizeConfig.height * 16,
+                          ),
+                          child: data.user.image == null
+                              ? Image.network(
+                                  image,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.memory(
+                                  base64Decode(data.user.image!),
+                                  fit: BoxFit.cover,
+                                ),
+                        ),
                       ),
                     ),
                   ),
@@ -279,7 +282,7 @@ class HomeScreen extends StatelessWidget {
                   width: SizeConfig.width * 50,
                   height: SizeConfig.height * 6,
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 111, 112, 112),
+                    color: const Color.fromARGB(255, 111, 112, 112),
                     borderRadius: BorderRadius.circular(
                       SizeConfig.height * 2,
                     ),

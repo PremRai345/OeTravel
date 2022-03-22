@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:oe_travel/Admin/edit_destination.dart';
+import 'package:oe_travel/constant/constants.dart';
 import 'package:oe_travel/models/destination_model.dart';
 
 import 'package:oe_travel/utils/size_config.dart';
@@ -10,8 +13,6 @@ class DestinationDetails extends StatelessWidget {
   DestinationDetails({required this.destination, Key? key}) : super(key: key);
 
   late Destination destination;
-  final String imageOfDestination =
-      "https://cdn.britannica.com/68/178668-050-DA998E6C/Durbar-Square-heart-district-Kathmandu-earthquake-Nepal-April-25-2015.jpg";
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class DestinationDetails extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -44,7 +45,7 @@ class DestinationDetails extends StatelessWidget {
                 ),
               );
             },
-            icon: Icon(Icons.edit),
+            icon: const Icon(Icons.edit),
           ),
         ],
       ),
@@ -52,13 +53,14 @@ class DestinationDetails extends StatelessWidget {
         widget: SingleChildScrollView(
           child: Column(
             children: [
-              Text(
+              const Text(
                 "Details",
               ),
               SizedBox(
                 height: SizeConfig.height,
               ),
-              buildDestinationDetails(imageUrl: imageOfDestination),
+              buildDestinationDetails(
+                  imageUrl: destination.destinationImageUrl),
             ],
           ),
         ),
@@ -70,17 +72,15 @@ class DestinationDetails extends StatelessWidget {
     required String imageUrl,
   }) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      
       children: [
-        Container(
-          height: 200,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            image: DecorationImage(
-              image: NetworkImage(imageUrl),
-              fit: BoxFit.cover,
-            ),
-          ),
+        ClipRect(
+          child: imageUrl.isEmpty
+              ? Image.network(
+                  ImageConstants.imageDestinationUrl,
+                  fit: BoxFit.cover,
+                )
+              : Image.memory(base64Decode(imageUrl)),
         ),
         SizedBox(
           height: SizeConfig.height * 3,
