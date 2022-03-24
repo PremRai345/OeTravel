@@ -34,47 +34,49 @@ class HomeScreen extends StatelessWidget {
       drawer: Drawer(
         child: Column(
           children: [
-            Consumer<UserProvider>(builder: (_, data, __) {
-              return UserAccountsDrawerHeader(
-                decoration: const BoxDecoration(
-                  color: Color.fromRGBO(0, 179, 134, 1),
-                ),
-                accountName: Text(data.user.name ?? "No Name Provided"),
-                accountEmail: Text(data.user.email ?? "No Email Provided"),
-                currentAccountPicture: Hero(
-                  tag: "image-hero",
-                  child: SizedBox(
-                    height: SizeConfig.height * 16,
-                    width: SizeConfig.height * 16,
-                    child: GestureDetector(
-                      //When user tap on image navigae to profile screen
-                      onTap: () => navigate(
-                        context,
-                        ProfileScreen(
-                          imageUrl: image,
-                        ),
-                      ),
-                      child: CircleAvatar(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(
-                            SizeConfig.height * 16,
+            Consumer<UserProvider>(
+              builder: (_, data, __) {
+                return UserAccountsDrawerHeader(
+                  decoration: const BoxDecoration(
+                    color: Color.fromRGBO(0, 179, 134, 1),
+                  ),
+                  accountName: Text(data.user.name ?? "No Name Provided"),
+                  accountEmail: Text(data.user.email ?? "No Email Provided"),
+                  currentAccountPicture: Hero(
+                    tag: "image-hero",
+                    child: SizedBox(
+                      height: SizeConfig.height * 16,
+                      width: SizeConfig.height * 16,
+                      child: GestureDetector(
+                        //When user tap on image navigate to profile screen
+                        onTap: () => navigate(
+                          context,
+                          ProfileScreen(
+                            imageUrl: image,
                           ),
-                          child: data.user.image == null
-                              ? Image.network(
-                                  image,
-                                  fit: BoxFit.cover,
-                                )
-                              : Image.memory(
-                                  base64Decode(data.user.image!),
-                                  fit: BoxFit.cover,
-                                ),
+                        ),
+                        child: CircleAvatar(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                              SizeConfig.height * 16,
+                            ),
+                            child: data.user.image == null
+                                ? Image.network(
+                                    image,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.memory(
+                                    base64Decode(data.user.image!),
+                                    fit: BoxFit.cover,
+                                  ),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              );
-            }),
+                );
+              },
+            ),
 
             //Called Dynamic build List and given value to it
             buildListTile(
@@ -102,16 +104,13 @@ class HomeScreen extends StatelessWidget {
             buildListTile(
               context,
               label: "Map",
-              widget: const MapMultiMarker(
-                
-              ),
-              icon: Icons.map,
+              widget: const MapMultiMarker(),
+              icon: Icons.map_outlined,
             ),
 
             SizedBox(
-              height: SizeConfig.height * 28,
+              height: SizeConfig.height * 8,
             ),
-
             //For Follow Us
             const ListTile(
               title: Text(
@@ -270,12 +269,15 @@ class HomeScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(
                   SizeConfig.height * 2,
                 ),
+                
                 child: imageUrl.isEmpty
                     ? Image.network(
                         ImageConstants.imageDestinationUrl,
                         fit: BoxFit.cover,
                       )
-                    : Image.memory(base64Decode(imageUrl)),
+                    : Image.memory(
+                        base64Decode(imageUrl),
+                      ),
               ),
               Positioned(
                 bottom: 7,

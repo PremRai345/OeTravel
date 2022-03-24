@@ -58,6 +58,30 @@ class _MapMultiMarkerState extends State<MapMultiMarker> {
       "region": "South Asia",
       "type": "Town",
       "rating": "8",
+    },
+    {
+      "address": "Rara Lake",
+      "id": "5",
+      "image":
+          "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+      "lat": 29.5239,
+      "lng": 82.0788,
+      "name": "Rara Lake",
+      "region": "South Asia",
+      "type": "Lake",
+      "rating": "10",
+    },
+    {
+      "address": "Mount Everest",
+      "id": "6",
+      "image":
+          "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+      "lat": 27.9881,
+      "lng": 86.9226,
+      "name": "Mount Everest",
+      "region": "South Asia",
+      "type": "Mountain",
+      "rating": "10",
     }
   ];
 

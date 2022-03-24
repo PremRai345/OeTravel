@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'package:oe_travel/Admin/destination_provider.dart';
 
-import 'package:oe_travel/models/destination_model.dart';
-
 import 'package:oe_travel/utils/size_config.dart';
 import 'package:oe_travel/widgets/button_sheet.dart';
 import 'package:oe_travel/widgets/curved_body_widget.dart';
@@ -94,6 +92,7 @@ class AddDestination extends StatelessWidget {
                       SizedBox(
                         height: SizeConfig.height * 2,
                       ),
+
                       Text(
                         "Description",
                         style: Theme.of(context).textTheme.bodyText2,

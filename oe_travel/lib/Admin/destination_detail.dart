@@ -55,9 +55,12 @@ class DestinationDetails extends StatelessWidget {
             children: [
               const Text(
                 "Details",
-              ),
-              SizedBox(
-                height: SizeConfig.height,
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 126, 124, 124),
+                  fontFamily: "Roboto",
+                ),
               ),
               buildDestinationDetails(
                   imageUrl: destination.destinationImageUrl),
@@ -74,31 +77,39 @@ class DestinationDetails extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
-          height: SizeConfig.height * 40,
-          width: SizeConfig.width * 40,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            image: DecorationImage(
-              image: NetworkImage(imageUrl),
-              fit: BoxFit.cover,
-            ),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Container(
+            child: imageUrl.isEmpty
+                ? Image.network(
+                    ImageConstants.imageDestinationUrl,
+                    fit: BoxFit.cover,
+                  )
+                : Image.memory(base64Decode(imageUrl)),
           ),
-          child: imageUrl.isEmpty
-              ? Image.network(
-                  ImageConstants.imageDestinationUrl,
-                  fit: BoxFit.cover,
-                )
-              : Image.memory(base64Decode(imageUrl)),
         ),
         SizedBox(
           height: SizeConfig.height * 3,
         ),
-        Text(destination.destinationName),
-        SizedBox(
-          height: SizeConfig.height * 5,
+        Text(
+          destination.destinationName,
+          style: const TextStyle(
+              color: Color.fromARGB(255, 153, 153, 152),
+              fontSize: 22,
+              fontWeight: FontWeight.w500),
         ),
-        Text(destination.destinationDescription),
+        SizedBox(
+          height: SizeConfig.height * 2,
+        ),
+        Text(
+          destination.destinationDescription,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: Color.fromARGB(255, 73, 73, 73),
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
       ],
     );
   }
