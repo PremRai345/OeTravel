@@ -11,15 +11,18 @@ class ForgotPassword extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.white,
+
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
-          brightness: Brightness.light,
           leading: IconButton(
             icon: const Icon(
+
               Icons.arrow_back_ios,
+
               color: Color.fromARGB(255, 121, 119, 119),
             ),
+            
             onPressed: () {
               Navigator.pop(context);
             },

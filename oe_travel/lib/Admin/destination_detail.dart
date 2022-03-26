@@ -35,19 +35,19 @@ class DestinationDetails extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => EditDestination(),
-                ),
-              );
-            },
-            icon: const Icon(Icons.edit),
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {
+        //       Navigator.push(
+        //         context,
+        //         MaterialPageRoute(
+        //           builder: (_) => EditDestination(),
+        //         ),
+        //       );
+        //     },
+        //     icon: const Icon(Icons.edit),
+        //   ),
+        // ],
       ),
       body: CurvedBodyWidget(
         widget: SingleChildScrollView(

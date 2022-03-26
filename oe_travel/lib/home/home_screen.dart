@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:oe_travel/Admin/destination_detail.dart';
 import 'package:oe_travel/Admin/destination_provider.dart';
 import 'package:oe_travel/Admin/destination_screen.dart';
-import 'package:oe_travel/Admin/settings.dart';
+
 import 'package:oe_travel/GoogleMap/google_map.dart';
 import 'package:oe_travel/Login-Register/profile_screen.dart';
 import 'package:oe_travel/providers/user_provider.dart';
@@ -34,50 +34,46 @@ class HomeScreen extends StatelessWidget {
       drawer: Drawer(
         child: Column(
           children: [
-            Consumer<UserProvider>(
-              builder: (_, data, __) {
-                return UserAccountsDrawerHeader(
-                  decoration: const BoxDecoration(
-                    color: Color.fromRGBO(0, 179, 134, 1),
-                  ),
-                  accountName: Text(data.user.name ?? "No Name Provided"),
-                  accountEmail: Text(data.user.email ?? "No Email Provided"),
-                  currentAccountPicture: Hero(
-                    tag: "image-hero",
-                    child: SizedBox(
-                      height: SizeConfig.height * 16,
-                      width: SizeConfig.height * 16,
-                      child: GestureDetector(
-                        //When user tap on image navigate to profile screen
-                        onTap: () => navigate(
-                          context,
-                          ProfileScreen(
-                            imageUrl: image,
-                          ),
-                        ),
-                        child: CircleAvatar(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                              SizeConfig.height * 16,
+            Consumer<UserProvider>(builder: (_, data, __) {
+              // data.
+              return UserAccountsDrawerHeader(
+                accountName: Text(data.user.name ?? "No Name"),
+                accountEmail: Text(
+                  data.user.email ?? "No Email",
+                ),
+                currentAccountPicture: Hero(
+                  tag: "image-url",
+                  child: SizedBox(
+                    height: SizeConfig.height * 16,
+                    width: SizeConfig.height * 16,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => ProfileScreen(
+                              imageUrl: '',
                             ),
-                            child: data.user.image == null
-                                ? Image.network(
-                                    image,
-                                    fit: BoxFit.cover,
-                                  )
-                                : Image.memory(
-                                    base64Decode(data.user.image!),
-                                    fit: BoxFit.cover,
-                                  ),
                           ),
-                        ),
+                        );
+                      },
+                      child: ClipRRect(
+                        borderRadius:
+                            BorderRadius.circular(SizeConfig.height * 8),
+                        child: data.user.image == null
+                            ? Image.network(
+                                image,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.memory(
+                                base64Decode(data.user.image!),
+                                fit: BoxFit.cover,
+                              ),
                       ),
                     ),
                   ),
-                );
-              },
-            ),
-
+                ),
+              );
+            }),
             //Called Dynamic build List and given value to it
             buildListTile(
               context,
@@ -88,18 +84,21 @@ class HomeScreen extends StatelessWidget {
               icon: Icons.person,
             ),
 
-            buildListTile(
-              context,
-              label: "Settings",
-              widget: const Settings(),
-              icon: Icons.settings,
-            ),
-            buildListTile(context,
-                label: "Add Destination",
-                widget: AddDestination(
-                  destinationImageUrl: ImageConstants.imageDestinationUrl,
-                ),
-                icon: Icons.travel_explore_outlined),
+            // buildListTile(
+            //   context,
+            //   label: "Settings",
+            //   widget: const Settings(),
+            //   icon: Icons.settings,
+            // ),
+
+            Provider.of<UserProvider>(context).user.isAdmin
+                ? buildListTile(context,
+                    label: "Add Destination",
+                    widget: AddDestination(
+                        destinationImageUrl:
+                            ImageConstants.imageDestinationUrl),
+                    icon: Icons.travel_explore_outlined)
+                : Container(),
 
             buildListTile(
               context,
@@ -269,7 +268,6 @@ class HomeScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(
                   SizeConfig.height * 2,
                 ),
-                
                 child: imageUrl.isEmpty
                     ? Image.network(
                         ImageConstants.imageDestinationUrl,
