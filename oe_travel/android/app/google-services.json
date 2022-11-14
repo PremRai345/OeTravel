@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "248898329992",
+    "project_id": "oetravel-b9691",
+    "storage_bucket": "oetravel-b9691.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:248898329992:android:23e27663ea17217f2f2e3d",
+        "android_client_info": {
+          "package_name": "com.oe_travel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "248898329992-im4pdnmbu0n8849jqtkbofnn4rn6ons7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.oe_travel",
+            "certificate_hash": "f3bdacb86e6e6103ddf983925eed332fb9d79c54"
+          }
+        },
+        {
+          "client_id": "248898329992-c4eigpsl7hi074bmibj7l9j5aru5rtsj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAS_AdsE4yLtULZ1gc9wX0miJd-WRgIE5A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "248898329992-c4eigpsl7hi074bmibj7l9j5aru5rtsj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
